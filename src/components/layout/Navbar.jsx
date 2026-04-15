@@ -1,33 +1,33 @@
-﻿'use client'
+﻿'use client';
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Menu, X } from 'lucide-react'
-import { HiOutlineCalendar } from 'react-icons/hi2'
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
+import { HiOutlineCalendar } from 'react-icons/hi2';
 
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Features', path: '/features' },
   { name: 'Modules', path: '/modules' },
   { name: 'Pricing', path: '/pricing' },
-  { name: 'Resources', path: '/resources' },
-]
+  // { name: 'Resources', path: '/resources' },
+];
 
 export default function Navbar() {
-  const [openMenu, setOpenMenu] = useState(false)
-  const router = useRouter()
-  const pathname = usePathname()
+  const [openMenu, setOpenMenu] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-100
-                       shadow-[0_1px_12px_rgba(0,0,0,0.05)] backdrop-blur-md">
+    <header
+      className="fixed inset-x-0 top-0 z-50 bg-white border-b border-gray-100
+                       shadow-[0_1px_12px_rgba(0,0,0,0.05)] backdrop-blur-md"
+    >
       <div className="max-w-[1280px] mx-auto px-8">
-
         {/* ── Main row ── */}
         <div className="flex h-20 items-center justify-between">
-
           {/* LEFT — Logo */}
           <div className="flex items-center shrink-0">
             <Link href="/" className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* CENTER — Desktop Nav (absolutely centered) */}
           <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {navItems.map((item) => {
-              const isActive = pathname === item.path
+              const isActive = pathname === item.path;
               return (
                 <Link
                   key={item.name}
@@ -48,14 +48,11 @@ export default function Navbar() {
                               after:absolute after:bottom-[-3px] after:left-0 after:h-[2.5px]
                               after:rounded-full after:bg-[#E48608]
                               after:transition-all after:duration-200
-                              ${isActive
-                      ? 'text-[#1C5477] after:w-full'
-                      : 'text-gray-900 hover:text-[#1C5477] after:w-0 hover:after:w-full'
-                    }`}
+                              ${isActive ? 'text-[#1C5477] after:w-full' : 'text-gray-900 hover:text-[#1C5477] after:w-0 hover:after:w-full'}`}
                 >
                   {item.name}
                 </Link>
-              )
+              );
             })}
           </nav>
 
@@ -99,22 +96,22 @@ export default function Navbar() {
             >
               <div className="flex flex-col gap-1 py-3">
                 {navItems.map((item) => {
-                  const isActive = pathname === item.path
+                  const isActive = pathname === item.path;
                   return (
                     <button
                       key={item.name}
-                      onClick={() => { router.push(item.path); setOpenMenu(false) }}
+                      onClick={() => {
+                        router.push(item.path);
+                        setOpenMenu(false);
+                      }}
                       className={`w-full flex items-center px-4 py-3 rounded-xl
                                   text-sm font-bold transition-colors duration-150
                                   cursor-pointer border-none bg-transparent text-left
-                                  ${isActive
-                          ? 'bg-[#f0f9ff] text-[#1C5477]'
-                          : 'text-gray-900 hover:bg-gray-50 hover:text-[#1C5477]'
-                        }`}
+                                  ${isActive ? 'bg-[#f0f9ff] text-[#1C5477]' : 'text-gray-900 hover:bg-gray-50 hover:text-[#1C5477]'}`}
                     >
                       {item.name}
                     </button>
-                  )
+                  );
                 })}
 
                 {/* Mobile CTA */}
@@ -122,7 +119,10 @@ export default function Navbar() {
                   <motion.button
                     whileHover={{ scale: 1.02, backgroundColor: 'transparent', color: '#1D4F6F' }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => { setOpenMenu(false); router.push('/demo') }}
+                    onClick={() => {
+                      setOpenMenu(false);
+                      router.push('/demo');
+                    }}
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-full
                                bg-[#F0970A] text-white text-sm font-bold
                                border-2 border-[#F0970A]
@@ -137,8 +137,7 @@ export default function Navbar() {
             </motion.div>
           )}
         </AnimatePresence>
-
       </div>
     </header>
-  )
+  );
 }
