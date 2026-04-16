@@ -18,7 +18,7 @@ export const metadata = {
     url: 'https://www.connectskool.com/features',
     images: [
       {
-        url: '/og-image.png',
+        url: '/assets/og-image.png',
         width: 1200,
         height: 630,
       },

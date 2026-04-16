@@ -27,7 +27,7 @@ export const metadata = {
     siteName: 'ConnectSkool',
     images: [
       {
-        url: '/og-image.png', // add this in public folder
+        url: '/assets/og-image.png', // add this in public folder
         width: 1200,
         height: 630,
       },
@@ -39,7 +39,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'ConnectSkool | School ERP Software',
     description: 'Complete school ERP with mobile app, attendance, fees and SMS notifications.',
-    images: ['/og-image.png'],
+    images: ['/assets/og-image.png'],
   },
 
   alternates: {

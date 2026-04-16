@@ -15,7 +15,7 @@ export const metadata = {
     siteName: 'ConnectSkool',
     images: [
       {
-        url: '/og-image.png', // add this image in public folder
+        url: '/assets/og-image.png', // add this image in public folder
         width: 1200,
         height: 630,
       },
