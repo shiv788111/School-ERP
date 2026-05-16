@@ -11,9 +11,9 @@ const GIF_SRC = "/whatsappoopsticky.gif";   // apni GIF ka path (public folder m
 
 const CHAT_MESSAGES = [
   "👋 Welcome to *ConnectSkool ERP*!",
-  "Manage *Admissions, Fees, Attendance & Results* — all in one smart platform. 🏫",
-  "Get a *FREE Demo* for your school today. Our team is ready to help! 📞",
-  "Parents, Teachers & Admins — *sab ek jagah connected*. Let's talk! 🚀",
+  "Manage *Admissions, Fees, Attendance & Results* — all in one powerful platform. 🏫",
+  "Get a *FREE Demo* for your school today. Our expert team is here to assist you! 📞",
+  "Connect *Parents, Teachers & Administrators* seamlessly in one smart system. 🚀",
 ];
 // ─────────────────────────────────────────────────────────
 

@@ -185,7 +185,7 @@ export default function ErpOrbit() {
           </svg>
 
           <span className="text-[11px] font-bold text-gray-700 dark:text-gray-200 tracking-wide">
-            ERP
+           ERP
           </span>
         </div>
 

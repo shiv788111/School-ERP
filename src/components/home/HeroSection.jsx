@@ -16,54 +16,6 @@ const ErpOrbit = dynamic(
 );
 
 
-
-// const MODULES = [
-//   {
-//     id: "admin",
-//     label: "Admin",
-//     title: "Admin Control Center",
-//     desc: "Centralized access to users, permissions, and school-wide settings in one secure place.",
-//     icon: Shield,
-//   },
-//   {
-//     id: "teacher",
-//     label: "Teacher",
-//     title: "Teacher Workspace",
-//     desc: "Plan lessons, manage attendance, and track classroom progress with ease.",
-//     icon: Users,
-//   },
-//   {
-//     id: "accountant",
-//     label: "Accountant",
-//     title: "Accounts & Ledger",
-//     desc: "Keep budgets, expenses, and audits aligned with real-time financial insights.",
-//     icon: Calculator,
-//   },
-//   {
-//     id: "student",
-//     label: "Student",
-//     title: "Student Hub",
-//     desc: "Profiles, performance, and communication -- everything students need at a glance.",
-//     icon: GraduationCap,
-//   },
-//   {
-//     id: "exam",
-//     label: "Exam Management",
-//     title: "Exam Management",
-//     desc: "Schedule exams, manage grading, and publish results securely in minutes.",
-//     icon: ClipboardList,
-//   },
-//   {
-//     id: "fees",
-//     label: "Fees Management",
-//     title: "Fees Management",
-//     desc: "Automate invoices, payments, and reminders with flexible fee structures.",
-//     icon: Wallet,
-//   },
-// ];
-
-
-
 const MODULES = [
   {
     id: "admin",
@@ -147,15 +99,25 @@ const [isModalOpen, setIsModalOpen] = useState(false);
             </button>
 
 
-            {/* <button
-              className="flex items-center gap-2 rounded-full 
-             bg-sky-500/15 px-6 py-3 text-sm font-semibold text-white 
+           <a 
+  href="https://play.google.com/store/apps/details?id=YOUR_APP_ID" 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  <button
+   className="flex items-center gap-2 rounded-full 
+             bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white 
              border-2 border-[#F0970A]
              shadow-lg shadow-[#F0970A]/30
              transition-all duration-300 ease-out 
-             hover:bg-white hover:text-black hover:-translate-y-0.5">
-              Book a Demo
-            </button> */}
+             hover:bg-white hover:text-black hover:-translate-y-0.5"
+  >
+    {/* Play Icon */}
+    <span className="text-lg">▶</span>
+
+    Download App
+  </button>
+</a>
           </div>
            
 
