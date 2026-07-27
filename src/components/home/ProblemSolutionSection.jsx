@@ -11,25 +11,25 @@ const defaultProblems = [
     id: 1,
     title: 'Scattered student data across spreadsheets',
     description: 'Critical information is trapped in siloed Excel files, making analysis and reporting a nightmare.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/assets/connect_skool_1and5.avif',
   },
   {
     id: 2,
     title: 'Manual attendance taking errors',
     description: 'Paper-based or basic digital systems lead to mistakes, proxy attendance, and wasted teacher hours.',
-    image: 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
+    image: '/assets/connect_skool2.avif',
   },
   {
     id: 3,
     title: 'Delayed fee collection tracking',
     description: 'Outstanding fees go unnoticed for months, causing cash flow problems and administrative headaches.',
-    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2111&q=80',
+    image: '/assets/connect_skool3.avif',
   },
   {
     id: 4,
     title: 'Poor parent-teacher communication',
     description: 'Lack of real-time updates creates gaps in student progress monitoring and parental involvement.',
-    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/assets/connect_skool4.avif',
   },
 ];
 
@@ -38,25 +38,25 @@ const defaultSolutions = [
     id: 1,
     title: 'One dashboard for all school data',
     description: 'Unified, real-time view of academics, attendance, fees, and communication in one beautiful interface.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/assets/connect_skool_1and5.avif',
   },
   {
     id: 2,
     title: 'Automated digital attendance system',
     description: 'Biometric and QR-code based attendance with instant alerts and auto-generated reports.',
-    image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80',
+    image: '/assets/connect_skool6.avif',
   },
   {
     id: 3,
     title: 'Real-time fee tracking and reminders',
     description: 'Automated payment tracking, receipts, and gentle reminders to parents via SMS and email.',
-    image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/assets/connect_skool7.avif',
   },
   {
     id: 4,
     title: 'Instant notifications and messaging',
     description: 'Two-way communication portal with instant updates, announcements, and parent-teacher chats.',
-    image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/assets/connect_skool8.avif',
   },
 ];
 

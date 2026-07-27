@@ -1,27 +1,33 @@
 ﻿'use client'
 
-import { Shield, Users, Calculator, GraduationCap, ClipboardList, Wallet, Sparkles, ArrowRight } from "lucide-react";
-// import ErpOrbit from "../shared/ErpOrbit";
-//import { HiOutlineCalendar } from 'react-icons/hi2'
-//import { motion, AnimatePresence } from 'framer-motion'
+import { Shield, Users, Calculator, GraduationCap, ClipboardList, Wallet, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import DemoPopModal from "../../views/demo/DemoPopModal";
-import { useState } from "react";
-
+import { useState, useMemo, Suspense } from "react";
 import dynamic from "next/dynamic";
+
+// Lazy load heavy components
+const DemoPopModal = dynamic(
+  () => import("../../views/demo/DemoPopModal"),
+  { 
+    ssr: false,
+    loading: () => null
+  }
+);
 
 const ErpOrbit = dynamic(
   () => import("../shared/ErpOrbit"),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <div className="w-64 h-64 bg-slate-800/50 rounded-full animate-pulse" />
+  }
 );
-
 
 const MODULES = [
   {
     id: "admin",
     label: "Admin",
     title: "Admin Control Center",
-    desc: "Centralized access...",
+    desc: "Centralized access to manage all school operations, staff, and system settings.",
     icon: Shield,
     href: "https://school-admin-dashbord-techeradmin-a.vercel.app/login", 
   },
@@ -29,7 +35,7 @@ const MODULES = [
     id: "teacher",
     label: "Teacher",
     title: "Teacher Workspace",
-    desc: "Plan lessons...",
+    desc: "Plan lessons, track student progress, manage assignments, and communicate with parents.",
     icon: Users,
     href: "https://school-admin-dashbord-techeradmin-a.vercel.app/login",
   },
@@ -37,7 +43,7 @@ const MODULES = [
     id: "accountant",
     label: "Accountant",
     title: "Accounts & Ledger",
-    desc: "Keep budgets...",
+    desc: "Keep budgets, track expenses, manage fee collections, and generate financial reports.",
     icon: Calculator,
     href: "https://school-admin-dashbord-techeradmin-a.vercel.app/login",
   },
@@ -45,33 +51,35 @@ const MODULES = [
     id: "student",
     label: "Student",
     title: "Student Hub",
-    desc: "Profiles...",
+    desc: "Access profiles, attendance records, exam results, and learning resources.",
     icon: GraduationCap,
     href: "https://student-dashborad-sand.vercel.app/login",
   },
 ];
 
-
 export default function HeroSection() {
-const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Memoize modules to prevent unnecessary re-renders
+  const modules = useMemo(() => MODULES, []);
 
   return (
-    <section className="relative isolate min-h-screen overflow-hidden bg-[linear-gradient(135deg,_#0f172a_0%,_#1e293b_40%,_#0ea5e9_100%)] text-white">
-
-      {/* Background blobs */}
-      <div className="pointer-events-none absolute inset-0">
+    <section 
+      className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-sky-600 text-white"
+      aria-labelledby="hero-heading"
+    >
+      {/* Background blobs - decorative */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -left-24 top-20 h-64 w-64 rounded-full bg-sky-500/20 blur-3xl" />
         <div className="absolute bottom-[-80px] right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.18),transparent_45%)]" />
       </div>
 
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:pb-28">
-
         {/* ── LEFT COLUMN ── */}
         <div className="relative z-10">
-
           {/* Heading */}
-          <h1 className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 id="hero-heading" className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
             The Smarter Way to{" "}
             <span className="bg-gradient-to-r from-[#F0970A] to-[#F0970A] bg-clip-text text-transparent">
               Run Your School.
@@ -79,88 +87,76 @@ const [isModalOpen, setIsModalOpen] = useState(false);
           </h1>
 
           {/* Subtext */}
-          <p className="mt-6 max-w-xl text-base  leading-relaxed text-slate-300 sm:text-lg">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
             ConnectSkool brings every part of your school under one roof — admissions, attendance, fees, exams, and staff — so you can focus on education, not paperwork.
           </p>
 
           {/* CTA Buttons */}
           <div className="mt-8 flex flex-wrap gap-3">
             <button
-            onClick={() => setIsModalOpen(true)} 
-              className="flex items-center gap-2 rounded-full 
-             bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white 
-             border-2 border-[#F0970A]
-             shadow-lg shadow-[#F0970A]/30
-             transition-all duration-300 ease-out 
-             hover:bg-white hover:text-black hover:-translate-y-0.5"
+              onClick={() => setIsModalOpen(true)}
+              aria-label="Book a free demo"
+              className="flex items-center gap-2 rounded-full bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white border-2 border-[#F0970A] shadow-lg shadow-[#F0970A]/30 transition-all duration-300 ease-out hover:bg-white hover:text-black hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2 focus:ring-offset-slate-900"
             >
-              Get Started Free
-              <ArrowRight size={16} />
+              Book Free Demo
+              <ArrowRight size={16} aria-hidden="true" />
             </button>
 
-
-           <a 
-  href="https://play.google.com/store/apps/details?id=YOUR_APP_ID" 
-  target="_blank" 
-  rel="noopener noreferrer"
->
-  <button
-   className="flex items-center gap-2 rounded-full 
-             bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white 
-             border-2 border-[#F0970A]
-             shadow-lg shadow-[#F0970A]/30
-             transition-all duration-300 ease-out 
-             hover:bg-white hover:text-black hover:-translate-y-0.5"
-  >
-    {/* Play Icon */}
-    <span className="text-lg">▶</span>
-
-    Download App
-  </button>
-</a>
+            <a 
+              href="https://play.google.com/store/apps/details?id=com.connectskool.app"
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label="Download ConnectSkool app from Google Play Store"
+              className="flex items-center gap-2 rounded-full bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white border-2 border-[#F0970A] shadow-lg shadow-[#F0970A]/30 transition-all duration-300 ease-out hover:bg-white hover:text-black hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2 focus:ring-offset-slate-900"
+            >
+              <span className="text-lg" aria-hidden="true">▶</span>
+              Download App
+            </a>
           </div>
-           
-
-           
 
           {/* MODULE BUTTONS */}
-          <div className="mt-8 flex flex-wrap gap-2">
-            {MODULES.map((module) => {
+          <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="School management modules">
+            {modules.map((module) => {
               const Icon = module.icon;
               const hasLink = !!module.href;
 
               return (
                 <div key={module.id} className="group relative">
-
                   {/* CLICKABLE LINK */}
-                  <Link
+                  <a
                     href={module.href || "#"}
                     target={hasLink ? "_blank" : undefined}
                     rel={hasLink ? "noopener noreferrer" : undefined}
-                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold shadow-lg shadow-black/30 transition duration-300 ease-out
-            ${hasLink
+                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold shadow-lg shadow-black/30 transition duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-slate-900
+                      ${hasLink
                         ? "border-sky-400/40 bg-sky-500/10 text-white hover:-translate-y-0.5 hover:bg-sky-500/20 cursor-pointer"
                         : "border-white/10 bg-white/5 text-slate-400 cursor-not-allowed opacity-60"
                       }`}
+                    aria-label={`Open ${module.label} dashboard`}
+                    aria-disabled={!hasLink}
                   >
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/15 text-sky-300">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/15 text-sky-300" aria-hidden="true">
                       <Icon size={13} />
                     </span>
                     {module.label}
                     {hasLink && (
-                      <span className="ml-0.5 flex items-center gap-0.5 rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-sky-300">
+                      <span className="ml-0.5 flex items-center gap-0.5 rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-sky-300" aria-hidden="true">
                         Open
                         <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-0.5">
                           <path d="M1.5 7.5L7.5 1.5M7.5 1.5H3M7.5 1.5V6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
                     )}
-                  </Link>
+                  </a>
 
                   {/* TOOLTIP */}
-                  <div className="pointer-events-none absolute bottom-full left-0 z-20 mb-3 w-64 origin-bottom rounded-2xl border border-white/15 bg-slate-900/80 p-4 text-left text-slate-200 opacity-0 shadow-xl shadow-black/40 backdrop-blur-2xl transition duration-300 ease-out scale-95 group-hover:scale-100 group-hover:opacity-100">
+                  <div 
+                    className="pointer-events-none absolute bottom-full left-0 z-20 mb-3 w-64 origin-bottom rounded-2xl border border-white/15 bg-slate-900/80 p-4 text-left text-slate-200 opacity-0 shadow-xl shadow-black/40 backdrop-blur-2xl transition duration-300 ease-out scale-95 group-hover:scale-100 group-hover:opacity-100"
+                    role="tooltip"
+                    aria-hidden="true"
+                  >
                     <div className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-sky-500/20 text-sky-300">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-sky-500/20 text-sky-300" aria-hidden="true">
                         <Icon size={18} />
                       </div>
                       <div>
@@ -173,28 +169,25 @@ const [isModalOpen, setIsModalOpen] = useState(false);
                       </div>
                     </div>
                   </div>
-
                 </div>
               );
             })}
           </div>
-          {/* <div className="pointer-events-none absolute -right-[200px] top-[0px] h-[680px] w-[680px] rounded-full border border-white/10 bg-gradient-to-br from-sky-400/15 via-slate-900/5 to-transparent" /> */}
-          {/* <div className="pointer-events-none absolute -right-[150px] top-[60px] h-[520px] w-[520px] rounded-full border border-white/8 bg-white/3" />
-          <div className="pointer-events-none absolute -right-[100px] top-[140px] h-[370px] w-[370px] rounded-full border border-white/6" /> 
-          <div className="absolute -right-[35%] top-[-8%] h-[520px] w-[520px] rounded-full border border-white/15 bg-gradient-to-br from-sky-400/30 via-slate-900/10 to-white/5 shadow-[0_0_80px_rgba(14,165,233,0.25)] backdrop-blur-2xl lg:h-[620px] lg:w-[620px]" />
-           <div className="absolute -right-[35%] top-[8%] h-[420px] w-[420px] rounded-full border border-white/10 bg-white/5 backdrop-blur-3xl lg:h-[500px] lg:w-[500px]" /> */}
-
         </div>
 
         {/* ── RIGHT COLUMN ── */}
-        {/* ── RIGHT COLUMN ── */}
         <div className="relative z-10 min-h-[520px] lg:min-h-[600px]">
-
           {/* Decorative circle */}
-          <div className="pointer-events-none absolute -right-[200px] top-[0px] h-[680px] w-[680px] rounded-full border border-white/10 bg-gradient-to-br from-sky-400/15 via-slate-900/5 to-transparent" />
+          <div 
+            className="pointer-events-none absolute -right-[200px] top-[0px] h-[680px] w-[680px] rounded-full border border-white/10 bg-gradient-to-br from-sky-400/15 via-slate-900/5 to-transparent"
+            aria-hidden="true"
+          />
 
           {/* ── CARD 1 — Student Overview (top-left) ── */}
-          <div className="absolute left-0 top-6 z-10 w-[300px] rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl ring-1 ring-white/5 transition-transform duration-500 hover:-translate-y-1">
+          <div 
+            className="absolute left-0 top-6 z-10 hidden w-[300px] rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl ring-1 ring-white/5 transition-transform duration-500 hover:-translate-y-1 lg:block"
+            aria-hidden="true"
+          >
             <div className="mb-3 flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Student Overview</p>
               <span className="rounded-full bg-sky-500/20 px-2 py-0.5 text-[10px] font-semibold text-sky-300">Live</span>
@@ -220,9 +213,12 @@ const [isModalOpen, setIsModalOpen] = useState(false);
           </div>
 
           {/* ── CARD 2 — Fee Collection (middle-right) ── */}
-          <div className="absolute right-4 top-[160px] z-10 w-[260px] rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800/90 to-slate-900/90 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl ring-1 ring-white/5 transition-transform duration-500 hover:-translate-y-1">
+          <div 
+            className="absolute right-4 top-[160px] z-10 hidden w-[260px] rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800/90 to-slate-900/90 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl ring-1 ring-white/5 transition-transform duration-500 hover:-translate-y-1 lg:block"
+            aria-hidden="true"
+          >
             <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-500/20">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-500/20" aria-hidden="true">
                 <Wallet size={15} className="text-amber-400" />
               </div>
               <div>
@@ -258,9 +254,12 @@ const [isModalOpen, setIsModalOpen] = useState(false);
           </div>
 
           {/* ── CARD 3 — Exam Results (bottom-left) ── */}
-          <div className="absolute left-6 top-[340px] z-10 w-[280px] rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl ring-1 ring-white/5 transition-transform duration-500 hover:-translate-y-1">
+          <div 
+            className="absolute left-6 top-[340px] z-10 hidden w-[280px] rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl ring-1 ring-white/5 transition-transform duration-500 hover:-translate-y-1 lg:block"
+            aria-hidden="true"
+          >
             <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-500/20">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-500/20" aria-hidden="true">
                 <ClipboardList size={15} className="text-sky-400" />
               </div>
               <div>
@@ -291,40 +290,16 @@ const [isModalOpen, setIsModalOpen] = useState(false);
             <p className="mt-3 text-[10px] text-slate-500">Avg score: 85.3% · 480 students evaluated</p>
           </div>
 
-          {/* ── YOUR IMAGE — Yahan apni image lagao ── */}
-          {/* Option 1: Local image (Next.js Image component) */}
-          {/* 
-  <div className="absolute right-[60px] top-[20px] z-10 w-[320px] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50">
-    <Image
-      src="/your-image.png"
-      alt="Dashboard preview"
-      width={320}
-      height={400}
-      className="h-auto w-full object-cover"
-    />
-  </div>
-  */}
-
-          {/* Option 2: <img> tag with any URL */}
-          {/* 
-  <div className="absolute right-[60px] top-[20px] z-10 w-[320px] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50">
-    <img
-      src="https://your-image-url.com/image.png"
-      alt="Dashboard preview"
-      className="h-auto w-full object-cover"
-    />
-  </div>
-  */}
-
-          {/* ErpOrbit — sabse upar, z-30 */}
+          {/* ErpOrbit Animation */}
           <div className="absolute -right-[110px] -bottom-[80px] z-30 opacity-90 transition-opacity duration-300 hover:opacity-100">
-            <ErpOrbit />
+            <Suspense fallback={<div className="w-64 h-64 bg-slate-800/50 rounded-full animate-pulse" />}>
+              <ErpOrbit />
+            </Suspense>
           </div>
-
         </div>
-
       </div>
 
+      {/* Demo Modal */}
       <DemoPopModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 

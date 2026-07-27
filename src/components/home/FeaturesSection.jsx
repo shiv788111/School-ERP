@@ -2,72 +2,97 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 import {
   HiOutlineClipboardDocumentList, HiOutlineCreditCard, HiOutlineBookOpen,
   HiOutlineUserGroup, HiOutlineBell, HiOutlineTruck,
   HiOutlineChartBar, HiOutlineAcademicCap, HiOutlineCheckCircle
 } from 'react-icons/hi2'
 
+const INTERVAL = 3000
+
 const featuresData = [
   {
-    id: 1, label: 'Attendance', icon: HiOutlineClipboardDocumentList,
-    image: 'https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=700&h=440&fit=crop',
+    id: 1, 
+    label: 'Attendance', 
+    icon: HiOutlineClipboardDocumentList,
+    image: '/assets/connect_skool_feature_1.jfif',
+    imageAlt: 'Smart Attendance Management dashboard showing biometric and QR code tracking',
     title: 'Smart Attendance Management',
     desc: 'Streamline attendance with biometric, QR, and app-based tracking. Works offline too.',
     points: ['Biometric & QR code integration', 'Real-time parent notifications', 'Automated monthly reports', 'Leave & absence management']
   },
   {
-    id: 2, label: 'Fee Management', icon: HiOutlineCreditCard,
-    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&h=440&fit=crop',
+    id: 2, 
+    label: 'Fee Management', 
+    icon: HiOutlineCreditCard,
+    image: '/assets/connect_skool3.avif',
+    imageAlt: 'Fee Management dashboard with payment gateway and financial reconciliation',
     title: 'Complete Fee Automation',
     desc: 'Simplify fee collection with multiple payment options, auto receipts and overdue alerts.',
     points: ['Online payment gateway', 'Auto SMS/email reminders', 'Digital receipts & invoices', 'Financial reconciliation']
   },
   {
-    id: 3, label: 'Exam System', icon: HiOutlineBookOpen,
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=700&h=440&fit=crop',
+    id: 3, 
+    label: 'Exam System', 
+    icon: HiOutlineBookOpen,
+    image: '/assets/connect_skool_feature_3.jfif',
+    imageAlt: 'Exam System dashboard showing online exam portal and report card generation',
     title: 'Comprehensive Exam & Report Cards',
     desc: 'Create exams, manage marks, auto-generate report cards and analyze performance trends.',
     points: ['Custom exam & grading schemes', 'Online exam portal with timer', 'Automatic report card generation', 'Performance trend analytics']
   },
   {
-    id: 4, label: 'Students', icon: HiOutlineUserGroup,
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700&h=440&fit=crop',
+    id: 4, 
+    label: 'Students', 
+    icon: HiOutlineUserGroup,
+    image: '/assets/connect_skool_feature_4.jfif',
+    imageAlt: 'Student Hub showing complete digital student profiles and academic history',
     title: 'Centralized Student Hub',
     desc: 'Manage all student data from enrollment to graduation in one place.',
     points: ['Complete digital student profiles', 'Enrollment & promotion management', 'Academic history & transcripts', 'Parent & guardian portals']
   },
   {
-    id: 5, label: 'Communication', icon: HiOutlineBell,
-    image: 'https://images.unsplash.com/photo-1516387938699-a93567ec168e?w=700&h=440&fit=crop',
+    id: 5, 
+    label: 'Communication', 
+    icon: HiOutlineBell,
+    image: '/assets/connect_skool_feature_5.jfif',
+    imageAlt: 'Communication Hub showing messaging system and notification alerts',
     title: 'Seamless Communication Hub',
     desc: 'Connect teachers, parents, and students with real-time messaging and alerts.',
     points: ['Bulk SMS & email notifications', 'In-app messaging system', 'Emergency broadcast alerts', 'Event & holiday calendars']
   },
   {
-    id: 6, label: 'Transport', icon: HiOutlineTruck,
-    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=700&h=440&fit=crop',
+    id: 6, 
+    label: 'Transport', 
+    icon: HiOutlineTruck,
+    image: '/assets/connect_skool_feature_6.jfif',
+    imageAlt: 'Transport Management dashboard with GPS vehicle tracking and route optimization',
     title: 'Smart Transport Management',
     desc: 'Track vehicles, optimize routes, and manage transport fees efficiently.',
     points: ['Live GPS vehicle tracking', 'Route optimization & planning', 'Parent pickup/drop alerts', 'Transport fee collection']
   },
   {
-    id: 7, label: 'Reports', icon: HiOutlineChartBar,
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&h=440&fit=crop',
+    id: 7, 
+    label: 'Reports', 
+    icon: HiOutlineChartBar,
+    image: '/assets/connect_skool_1and5.avif',
+    imageAlt: 'Analytics dashboard showing performance charts and custom reports',
     title: 'Advanced Analytics & Reports',
     desc: 'Turn data into insights with comprehensive academic reporting and dashboards.',
     points: ['Performance dashboards', 'Comparative class analysis', 'Custom report builder', 'Export in multiple formats']
   },
   {
-    id: 8, label: 'Staff', icon: HiOutlineAcademicCap,
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&h=440&fit=crop',
+    id: 8, 
+    label: 'Staff', 
+    icon: HiOutlineAcademicCap,
+    image: '/assets/connect_skool_feature_8.jfif',
+    imageAlt: 'Staff Administration dashboard showing profiles and payroll integration',
     title: 'Complete Staff Administration',
     desc: 'Manage staff records, attendance, leaves, payroll and performance reviews.',
     points: ['Staff profiles & documentation', 'Attendance & leave tracking', 'Payroll integration', 'Performance evaluation system']
   },
 ]
-
-const INTERVAL = 3000
 
 export default function FeaturesSection() {
   const [active, setActive] = useState(0)
@@ -77,9 +102,10 @@ export default function FeaturesSection() {
   const progRef = useRef(null)
   const startTimeRef = useRef(null)
 
-  const feat = featuresData[active]
-  const Icon = feat.icon
+  const currentFeature = featuresData[active]
+  const Icon = currentFeature.icon
 
+  // Start progress bar animation
   const startProgress = useCallback(() => {
     setProgress(0)
     startTimeRef.current = Date.now()
@@ -91,6 +117,7 @@ export default function FeaturesSection() {
     }, 50)
   }, [])
 
+  // Navigate to specific slide
   const goTo = useCallback((idx) => {
     setActive(idx)
     startProgress()
@@ -104,6 +131,7 @@ export default function FeaturesSection() {
     }, INTERVAL)
   }, [startProgress])
 
+  // Handle pause/resume
   useEffect(() => {
     if (!paused) {
       goTo(active)
@@ -115,6 +143,7 @@ export default function FeaturesSection() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paused])
 
+  // Initial setup
   useEffect(() => {
     goTo(0)
     return () => {
@@ -124,7 +153,8 @@ export default function FeaturesSection() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleTabClick = (idx) => {
+  // Handle tab click
+  const handleTabClick = useCallback((idx) => {
     clearInterval(timerRef.current)
     clearInterval(progRef.current)
     setActive(idx)
@@ -133,15 +163,30 @@ export default function FeaturesSection() {
       setActive(prev => (prev + 1) % featuresData.length)
       startProgress()
     }, INTERVAL)
-  }
+  }, [startProgress])
+
+  // Handle keyboard navigation
+  const handleKeyDown = useCallback((e, idx) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleTabClick(idx)
+    }
+  }, [handleTabClick])
 
   return (
-    <section className="bg-gradient-to-b from-[#F8F9FC] to-[#EEF2F7] py-20 px-8">
+    <section 
+      className="bg-gradient-to-b from-[#F8F9FC] to-[#EEF2F7] py-20 px-8"
+      aria-labelledby="features-heading"
+    >
       <div className="max-w-7xl mx-auto">
-
         {/* Header */}
-        <motion.div initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-[#1E4E6D]">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true }} 
+          className="text-center mb-12"
+        >
+          <h2 id="features-heading" className="text-4xl font-bold text-[#1E4E6D]">
             Everything Your School <span className="text-[#F0970A]">Needs</span>
           </h2>
           <p className="text-[#6B7280] text-lg mt-3 max-w-xl mx-auto">
@@ -149,16 +194,25 @@ export default function FeaturesSection() {
           </p>
         </motion.div>
 
-        {/* Top Card */}
+        {/* Main Feature Card */}
         <div
           className="bg-[#1E4E6D] rounded-2xl overflow-hidden mb-5 relative"
-          onMouseEnter={() => { setPaused(true); clearInterval(timerRef.current); clearInterval(progRef.current) }}
+          onMouseEnter={() => { 
+            setPaused(true)
+            clearInterval(timerRef.current)
+            clearInterval(progRef.current)
+          }}
           onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          role="region"
+          aria-label="Feature showcase"
         >
           {/* Progress Bar */}
           <div
             className="absolute bottom-0 left-0 h-[3px] bg-[#F0970A] z-10 transition-all duration-75"
             style={{ width: `${progress}%` }}
+            aria-hidden="true"
           />
 
           <div className="p-10 lg:p-14">
@@ -171,29 +225,35 @@ export default function FeaturesSection() {
                 transition={{ duration: 0.32 }}
                 className="flex flex-col lg:flex-row gap-12 items-center"
               >
-                {/* Image */}
+                {/* Image with Next.js optimization */}
                 <div className="lg:w-[46%] w-full">
-                  <motion.img
-                    key={feat.image}
-                    initial={{ scale: 0.97, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.4 }}
-                    src={feat.image}
-                    alt={feat.label}
-                    className="w-full aspect-[16/10] object-cover rounded-2xl shadow-xl"
-                  />
+                  <div className="relative w-full aspect-[16/10] rounded-2xl shadow-xl overflow-hidden">
+                    <Image
+                      src={currentFeature.image}
+                      alt={currentFeature.imageAlt || `${currentFeature.label} feature dashboard`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 46vw"
+                      className="object-cover"
+                      priority={active === 0}
+                      quality={85}
+                    />
+                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1">
                   <div className="inline-flex items-center gap-2 bg-orange-500/15 text-[#F0970A] text-[11px] font-semibold px-3 py-1.5 rounded-full border border-orange-500/25 uppercase tracking-wider mb-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F0970A]" />
-                    {feat.label}
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#F0970A]" aria-hidden="true" />
+                    {currentFeature.label}
                   </div>
-                  <h3 className="text-white text-2xl lg:text-3xl font-bold leading-snug mb-3">{feat.title}</h3>
-                  <p className="text-[#CBD5E1] text-[15px] leading-7 mb-5">{feat.desc}</p>
-                  <ul className="space-y-2.5 mb-7">
-                    {feat.points.map((pt, i) => (
+                  <h3 className="text-white text-2xl lg:text-3xl font-bold leading-snug mb-3">
+                    {currentFeature.title}
+                  </h3>
+                  <p className="text-[#CBD5E1] text-[15px] leading-7 mb-5">
+                    {currentFeature.desc}
+                  </p>
+                  <ul className="space-y-2.5 mb-7" role="list">
+                    {currentFeature.points.map((point, i) => (
                       <motion.li
                         key={i}
                         initial={{ opacity: 0, x: -10 }}
@@ -201,12 +261,18 @@ export default function FeaturesSection() {
                         transition={{ delay: 0.2 + i * 0.08 }}
                         className="flex items-center gap-3 text-[#E5E7EB] text-sm"
                       >
-                        <HiOutlineCheckCircle className="text-[#F0970A] w-5 h-5 flex-shrink-0" />
-                        {pt}
+                        <HiOutlineCheckCircle 
+                          className="text-[#F0970A] w-5 h-5 flex-shrink-0" 
+                          aria-hidden="true" 
+                        />
+                        {point}
                       </motion.li>
                     ))}
                   </ul>
-                  <button className="bg-[#F0970A] hover:bg-[#d87f05] text-white font-semibold px-6 py-3 rounded-full text-sm transition-all hover:-translate-y-0.5">
+                  <button 
+                    className="bg-[#F0970A] hover:bg-[#d87f05] text-white font-semibold px-6 py-3 rounded-full text-sm transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2 focus:ring-offset-[#1E4E6D]"
+                    aria-label={`Explore ${currentFeature.label} feature`}
+                  >
                     Explore Feature →
                   </button>
                 </div>
@@ -215,36 +281,61 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="grid grid-cols-4 sm:grid-cols-8 gap-3">
-          {featuresData.map((f, i) => {
-            const TabIcon = f.icon
-            const isActive = active === i
+        {/* Feature Tabs */}
+        <div 
+          className="grid grid-cols-4 sm:grid-cols-8 gap-3"
+          role="tablist"
+          aria-label="Feature navigation"
+        >
+          {featuresData.map((feature, index) => {
+            const TabIcon = feature.icon
+            const isActive = active === index
             return (
               <button
-                key={f.id}
-                 onMouseEnter={() => handleTabClick(i)}
-                className={`relative overflow-hidden p-3 rounded-xl border transition-all duration-250 flex flex-col items-center gap-2 group
-                  ${isActive ? 'bg-white border-[#F0970A] border-2 -translate-y-0.5' : 'bg-white border-[#E5E7EB] hover:border-[#F0970A] hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(240,151,10,0.28)]'}`}
+                key={feature.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`${feature.label} feature`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => handleTabClick(index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                onMouseEnter={() => handleTabClick(index)}
+                className={`relative overflow-hidden p-3 rounded-xl border transition-all duration-250 flex flex-col items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2
+                  ${isActive 
+                    ? 'bg-white border-[#F0970A] border-2 -translate-y-0.5 shadow-lg shadow-[#F0970A]/20' 
+                    : 'bg-white border-[#E5E7EB] hover:border-[#F0970A] hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(240,151,10,0.28)]'
+                  }`}
               >
-                {/* Hover fill bg */}
-                <span className={`absolute inset-0 bg-[#F0970A] transition-opacity duration-220 ${isActive ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`} />
-                <TabIcon className={`w-5 h-5 relative z-10 transition-colors ${isActive ? 'text-[#F0970A]' : 'text-[#374151] group-hover:text-white'}`} />
-                <span className={`text-[10.5px] font-medium text-center relative z-10 transition-colors leading-tight ${isActive ? 'text-[#1E4E6D]' : 'text-[#374151] group-hover:text-white'}`}>
-                  {f.label}
+                {/* Hover fill background */}
+                <span 
+                  className={`absolute inset-0 bg-[#F0970A] transition-opacity duration-220 ${isActive ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}
+                  aria-hidden="true"
+                />
+                <TabIcon 
+                  className={`w-5 h-5 relative z-10 transition-colors ${
+                    isActive ? 'text-[#F0970A]' : 'text-[#374151] group-hover:text-white'
+                  }`}
+                  aria-hidden="true"
+                />
+                <span 
+                  className={`text-[10.5px] font-medium text-center relative z-10 transition-colors leading-tight ${
+                    isActive ? 'text-[#1E4E6D]' : 'text-[#374151] group-hover:text-white'
+                  }`}
+                >
+                  {feature.label}
                 </span>
-                {/* Active tab progress */}
+                {/* Active tab progress indicator */}
                 {isActive && (
                   <span
                     className="absolute bottom-0 left-0 h-[2.5px] bg-[#F0970A]"
                     style={{ width: `${progress}%`, transition: 'width 75ms linear' }}
+                    aria-hidden="true"
                   />
                 )}
               </button>
             )
           })}
         </div>
-
       </div>
     </section>
   )

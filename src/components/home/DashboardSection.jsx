@@ -1,7 +1,8 @@
 ﻿"use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 import {
   ShieldCheck,
   GraduationCap,
@@ -38,6 +39,9 @@ const services = [
     icon: Monitor,
     accent: "#EEF4FB",
     tag: "40+ Modules",
+    seoTitle: "School Management Software - Complete ERP Solution",
+    seoDesc: "Comprehensive school management system with 40+ modules covering admissions, attendance, fees, exams, and alumni management.",
+    slug: "school-management-software",
   },
   {
     id: "002",
@@ -46,6 +50,9 @@ const services = [
     icon: Rocket,
     accent: "#FFF4E5",
     tag: "Live Contests",
+    seoTitle: "Student Competition Platform - Online Contests for Students",
+    seoDesc: "Online competition platform for students to participate in various activities, contests, and challenges organized by ConnectSkool.",
+    slug: "student-competition-platform",
   },
   {
     id: "003",
@@ -54,6 +61,9 @@ const services = [
     icon: Target,
     accent: "#EDFBF4",
     tag: "Career Mapping",
+    seoTitle: "Career Goal Tracking Software for Students",
+    seoDesc: "Smart career mapping and goal tracking platform that helps students identify career interests and build their professional path.",
+    slug: "career-goal-tracking",
   },
   {
     id: "004",
@@ -62,6 +72,9 @@ const services = [
     icon: Trophy,
     accent: "#F3EFFE",
     tag: "Recognition",
+    seoTitle: "Student Achievement & Awards Management System",
+    seoDesc: "Digital recognition platform for student achievements with certificates, leaderboards, and performance tracking reports.",
+    slug: "achievement-awards-management",
   },
 ];
 
@@ -73,6 +86,8 @@ const roles = [
     icon: ShieldCheck,
     color: "#1E4E6D",
     lightBg: "#EEF4FB",
+    seoTitle: "School Admin Dashboard",
+    seoDesc: "Full-featured admin dashboard with real-time analytics, staff management, and complete school system configuration.",
   },
   {
     title: "Teacher Panel",
@@ -80,6 +95,8 @@ const roles = [
     icon: GraduationCap,
     color: "#0D7A5F",
     lightBg: "#EDFBF4",
+    seoTitle: "Teacher Panel",
+    seoDesc: "Complete teacher panel for managing classes, attendance, assignments, marks, and student progress tracking.",
   },
   {
     title: "Accountant View",
@@ -87,6 +104,8 @@ const roles = [
     icon: Wallet,
     color: "#B86C08",
     lightBg: "#FEF3E2",
+    seoTitle: "School Accountant Dashboard",
+    seoDesc: "Financial management dashboard for school accountants with fee tracking, expense reports, and salary management.",
   },
   {
     title: "Student Portal",
@@ -94,6 +113,8 @@ const roles = [
     icon: UserCircle,
     color: "#6941C6",
     lightBg: "#F3EFFE",
+    seoTitle: "Student Portal",
+    seoDesc: "Student portal for viewing exam results, checking attendance, submitting assignments, and receiving school announcements.",
   },
 ];
 
@@ -102,121 +123,95 @@ function ServiceCard({ service, index }) {
   const [hovered, setHovered] = useState(false);
   const Icon = service.icon;
 
+  const handleMouseEnter = useCallback(() => setHovered(true), []);
+  const handleMouseLeave = useCallback(() => setHovered(false), []);
+  const handleFocus = useCallback(() => setHovered(true), []);
+  const handleBlur = useCallback(() => setHovered(false), []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      className="relative flex flex-col overflow-hidden rounded-2xl bg-white p-8 transition-all duration-200"
       style={{
-        background: T.white,
         border: `2px solid ${hovered ? T.orange : T.border}`,
-        borderRadius: 20,
-        padding: "32px 28px",
-        cursor: "pointer",
-        transition: "border-color 0.22s, transform 0.22s, box-shadow 0.22s",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
         boxShadow: hovered
           ? "0 16px 48px rgba(240,151,10,0.12)"
           : "0 2px 12px rgba(30,78,109,0.06)",
-        display: "flex",
-        flexDirection: "column",
-        gap: 0,
-        position: "relative",
-        overflow: "hidden",
       }}
+      role="article"
+      aria-label={service.seoTitle}
     >
       {/* Number badge */}
       <span
-        style={{
-          fontFamily: "monospace",
-          fontSize: 11,
-          fontWeight: 600,
-          color: hovered ? T.orange : T.muted,
-          letterSpacing: 2,
-          marginBottom: 20,
-          transition: "color 0.22s",
-        }}
+        className="mb-5 font-mono text-[11px] font-semibold tracking-[2px] transition-colors duration-200"
+        style={{ color: hovered ? T.orange : T.muted }}
+        aria-hidden="true"
       >
         ( {service.id} )
       </span>
 
       {/* Icon */}
       <div
+        className="mb-[22px] flex h-14 w-14 items-center justify-center rounded-xl transition-colors duration-200"
         style={{
-          width: 56,
-          height: 56,
-          borderRadius: 14,
           background: hovered ? T.orange : service.accent,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 22,
-          transition: "background 0.22s",
         }}
+        aria-hidden="true"
       >
         <Icon
           size={26}
-          color={hovered ? "#fff" : T.navy}
-          style={{ transition: "color 0.22s" }}
+          className="transition-colors duration-200"
+          style={{ color: hovered ? "#fff" : T.navy }}
         />
       </div>
 
       {/* Title */}
       <h3
-        style={{
-          fontSize: 17,
-          fontWeight: 700,
-          color: hovered ? T.orange : T.navy,
-          marginBottom: 10,
-          lineHeight: 1.35,
-          transition: "color 0.22s",
-        }}
+        className="mb-2.5 text-[17px] font-bold leading-[1.35] transition-colors duration-200"
+        style={{ color: hovered ? T.orange : T.navy }}
       >
         {service.title}
       </h3>
 
       {/* Desc */}
-      <p
-        style={{
-          fontSize: 13.5,
-          color: T.slate,
-          lineHeight: 1.7,
-          marginBottom: 20,
-          flex: 1,
-        }}
-      >
+      <p className="mb-5 flex-1 text-[13.5px] leading-relaxed" style={{ color: T.slate }}>
         {service.desc}
       </p>
 
-      {/* Tag + Arrow */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      {/* Tag + Link */}
+      <div className="flex items-center justify-between">
         <span
+          className="rounded-full px-3 py-1 text-[11.5px] font-semibold transition-colors duration-200"
           style={{
-            fontSize: 11.5,
-            fontWeight: 600,
             background: hovered ? T.orange : T.orangeLight,
             color: hovered ? "#fff" : "#B86C08",
-            padding: "4px 12px",
-            borderRadius: 20,
-            transition: "background 0.22s, color 0.22s",
           }}
         >
           {service.tag}
         </span>
-        <ArrowRight
-          size={16}
-          color={hovered ? T.orange : T.muted}
-          style={{ transition: "color 0.22s, transform 0.22s", transform: hovered ? "translateX(3px)" : "translateX(0)" }}
-        />
+        <Link
+          href={`/services/${service.slug}`}
+          className="inline-flex items-center gap-1 text-sm font-medium transition-all duration-200 hover:translate-x-1"
+          style={{ color: hovered ? T.orange : T.muted }}
+          aria-label={`Learn more about ${service.title}`}
+        >
+          Learn More
+          <ArrowRight size={16} aria-hidden="true" />
+        </Link>
       </div>
     </motion.div>
   );
 }
 
-// ─── DASHBOARD ROLE CARD ──────────────────────────────────────────
+// ─── DASHBOARD ROLE CARD (Selectable Cards - Not Tabs) ──────────
 function RoleCard({ role, index, active, onClick }) {
   const Icon = role.icon;
 
@@ -224,56 +219,47 @@ function RoleCard({ role, index, active, onClick }) {
     <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Select ${role.title} - ${role.seoTitle}`}
+      aria-pressed={active}
+      className="cursor-pointer rounded-2xl p-7 text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2"
       style={{
         background: active ? T.navy : T.white,
         border: `2px solid ${active ? T.orange : T.border}`,
-        borderRadius: 20,
-        padding: "28px 24px",
-        cursor: "pointer",
-        transition: "all 0.25s ease",
         transform: active ? "translateY(-4px)" : "translateY(0)",
         boxShadow: active
           ? "0 12px 40px rgba(30,78,109,0.18)"
           : "0 2px 12px rgba(30,78,109,0.05)",
-        textAlign: "center",
       }}
     >
       <div
+        className="mx-auto mb-[18px] flex h-[60px] w-[60px] items-center justify-center rounded-2xl transition-colors duration-200"
         style={{
-          width: 60,
-          height: 60,
-          borderRadius: 16,
           background: active ? T.orange : role.lightBg,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "0 auto 18px",
-          transition: "background 0.25s",
         }}
+        aria-hidden="true"
       >
         <Icon size={26} color={active ? "#fff" : role.color} />
       </div>
       <h3
-        style={{
-          fontSize: 15,
-          fontWeight: 700,
-          color: active ? "#fff" : T.navy,
-          marginBottom: 10,
-          transition: "color 0.25s",
-        }}
+        className="mb-2.5 text-[15px] font-bold transition-colors duration-200"
+        style={{ color: active ? "#fff" : T.navy }}
       >
         {role.title}
       </h3>
       <p
-        style={{
-          fontSize: 13,
-          color: active ? "rgba(255,255,255,0.72)" : T.slate,
-          lineHeight: 1.65,
-          transition: "color 0.25s",
-        }}
+        className="text-[13px] leading-relaxed transition-colors duration-200"
+        style={{ color: active ? "rgba(255,255,255,0.72)" : T.slate }}
       >
         {role.desc}
       </p>
@@ -281,20 +267,10 @@ function RoleCard({ role, index, active, onClick }) {
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          style={{
-            marginTop: 16,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 4,
-            fontSize: 12,
-            fontWeight: 600,
-            color: T.orange,
-            background: "rgba(240,151,10,0.15)",
-            padding: "4px 12px",
-            borderRadius: 20,
-          }}
+          className="mt-4 inline-flex items-center gap-1 rounded-full bg-orange-500/15 px-3 py-1 text-[12px] font-semibold text-[#F0970A]"
+          aria-live="polite"
         >
-          Active <ChevronRight size={12} />
+          Active <ChevronRight size={12} aria-hidden="true" />
         </motion.div>
       )}
     </motion.div>
@@ -305,14 +281,8 @@ function RoleCard({ role, index, active, onClick }) {
 function SectionLabel({ text }) {
   return (
     <p
-      style={{
-        fontSize: 11.5,
-        fontWeight: 700,
-        letterSpacing: "2.5px",
-        textTransform: "uppercase",
-        color: T.orange,
-        marginBottom: 12,
-      }}
+      className="mb-3 text-[11.5px] font-bold uppercase tracking-[2.5px] text-[#F0970A]"
+      aria-hidden="true"
     >
       {text}
     </p>
@@ -327,49 +297,53 @@ function ServicesSection() {
   return (
     <section
       ref={ref}
-      style={{
-        background: T.bg,
-        padding: "80px 24px",
-      }}
+      className="bg-[#F8F9FC] px-6 py-20"
+      aria-labelledby="services-heading"
     >
-      <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          style={{ textAlign: "center", marginBottom: 56 }}
+          className="mb-14 text-center"
         >
           <SectionLabel text="Our Services" />
           <h2
-            style={{
-              fontSize: "clamp(24px, 4vw, 36px)",
-              fontWeight: 800,
-              color: T.navy,
-              lineHeight: 1.25,
-              maxWidth: 640,
-              margin: "0 auto 14px",
-            }}
+            id="services-heading"
+            className="mx-auto max-w-2xl text-[clamp(24px,4vw,36px)] font-extrabold leading-[1.25] text-[#1E4E6D]"
           >
-            ConnectSkool: All In One, Software Solution for Every School!
+            Complete School ERP Software for{" "}
+            <span className="text-[#F0970A]">Every School</span>
           </h2>
-          <p style={{ fontSize: 15, color: T.slate, maxWidth: 520, margin: "0 auto" }}>
+          <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-[#5A6880]">
             One powerful platform covering every corner of school management — from classrooms to careers.
           </p>
         </motion.div>
 
         {/* Cards Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: 24,
-          }}
-        >
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" role="list">
           {services.map((s, i) => (
             <ServiceCard key={s.id} service={s} index={i} />
           ))}
         </div>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-12 text-center"
+        >
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 rounded-full bg-[#F0970A] px-8 py-3.5 text-[14px] font-bold text-white shadow-lg shadow-[#F0970A]/30 transition-all duration-300 hover:scale-105 hover:bg-[#d87f05] focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2"
+            aria-label="View all school management services"
+          >
+            Explore All Services <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
@@ -381,49 +355,42 @@ function DashboardSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.15 });
 
+  const handleRoleSelect = useCallback((index) => {
+    setActiveRole(index);
+  }, []);
+
   return (
     <section
       ref={ref}
-      style={{
-        background: T.white,
-        padding: "80px 24px",
-        borderTop: `1px solid ${T.border}`,
-      }}
+      className="border-t border-[#E4E9F0] bg-white px-6 py-20"
+      aria-labelledby="dashboard-heading"
     >
-      <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          style={{ textAlign: "center", marginBottom: 56 }}
+          className="mb-14 text-center"
         >
           <SectionLabel text="Role-Based Dashboards" />
           <h2
-            style={{
-              fontSize: "clamp(24px, 4vw, 34px)",
-              fontWeight: 800,
-              color: T.navy,
-              lineHeight: 1.25,
-              maxWidth: 560,
-              margin: "0 auto 14px",
-            }}
+            id="dashboard-heading"
+            className="mx-auto max-w-2xl text-[clamp(24px,4vw,34px)] font-extrabold leading-[1.25] text-[#1E4E6D]"
           >
             Tailored Experience for{" "}
-            <span style={{ color: T.orange }}>Every User</span>
+            <span className="text-[#F0970A]">Every User</span>
           </h2>
-          <p style={{ fontSize: 15, color: T.slate, maxWidth: 480, margin: "0 auto" }}>
+          <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#5A6880]">
             Each role gets their own smart dashboard — no clutter, just the tools they need.
           </p>
         </motion.div>
 
-        {/* Role Cards */}
+        {/* Role Cards - Selectable Cards, Not Tabs */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 22,
-          }}
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          role="group"
+          aria-label="Dashboard roles"
         >
           {roles.map((role, i) => (
             <RoleCard
@@ -431,7 +398,7 @@ function DashboardSection() {
               role={role}
               index={i}
               active={activeRole === i}
-              onClick={() => setActiveRole(i)}
+              onClick={() => handleRoleSelect(i)}
             />
           ))}
         </div>
@@ -442,56 +409,29 @@ function DashboardSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          style={{
-            marginTop: 48,
-            background: T.navy,
-            borderRadius: 20,
-            padding: "32px 36px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 20,
-          }}
+          className="mt-12 flex flex-wrap items-center justify-between gap-5 rounded-2xl bg-[#1E4E6D] px-9 py-8"
         >
           <div>
-            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", marginBottom: 4 }}>
-              Ready to transform your school?
-            </p>
-            <h3 style={{ fontSize: 20, fontWeight: 700, color: "#fff" }}>
-              Get started with ConnectSkool today
-            </h3>
+            <p className="mb-1 text-[13px] text-white/60">Ready to transform your school?</p>
+            <h3 className="text-[20px] font-bold text-white">Get started with ConnectSkool today</h3>
           </div>
-          <button
-            style={{
-              background: T.orange,
-              color: "#fff",
-              border: "none",
-              borderRadius: 12,
-              padding: "12px 28px",
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              whiteSpace: "nowrap",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#d4830a")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = T.orange)}
+          <Link
+            href="/demo"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#F0970A] px-7 py-3 text-[14px] font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#d87f05] focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2 focus:ring-offset-[#1E4E6D]"
+            aria-label="Request a demo for ConnectSkool school management software"
           >
-            Request a Demo <ArrowRight size={16} />
-          </button>
+            Book Free Demo <ArrowRight size={16} aria-hidden="true" />
+          </Link>
         </motion.div>
       </div>
     </section>
   );
 }
 
-// ─── DEFAULT EXPORT (both sections combined) ──────────────────────
+// ─── DEFAULT EXPORT ──────────────────────────────────────────────
 export default function ConnectSkoolSections() {
   return (
-    <main style={{ background: T.bg, fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
+    <main className="font-sans" style={{ background: T.bg }}>
       <ServicesSection />
       <DashboardSection />
     </main>
