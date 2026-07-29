@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 const roles = [
   {
     id: 'parents',
@@ -21,7 +23,10 @@ const roles = [
     heading: 'Empowering Parents',
     sub: 'Stay Closer to Your Child\'s Journey',
     description: 'ConnectSkool gives parents a powerful, intuitive portal to stay involved in every aspect of their child\'s school life. From live attendance tracking to instant fee payment — everything is just a tap away. Receive instant push notifications for attendance, exam schedules, and school announcements. View academic performance trends and communicate directly with teachers through in-app messaging — all in real time, all from your phone.',
-     image: '/assets/featuresection.webp',
+    image: '/assets/featuresection.webp',
+    alt: 'ConnectSkool Parent Portal showing attendance tracking, fee payment, and real-time notifications',
+    ctaLink: '/features/parents',
+    ctaLabel: 'Explore Parent Portal'
   },
   {
     id: 'students',
@@ -38,6 +43,9 @@ const roles = [
     sub: 'Your Personal Academic Command Center',
     description: 'Access timetables, assignments, study materials, and exam schedules — all in one clean dashboard. Students can track their attendance records, download admit cards instantly, and submit assignments online with ease. ConnectSkool helps every student stay on top of their academics with personalized insights, progress reports, and a library of digital resources available 24/7 — anywhere, on any device.',
     image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&h=600&fit=crop',
+    alt: 'ConnectSkool Student Portal showing timetables, assignments, and exam schedules',
+    ctaLink: '/features/students',
+    ctaLabel: 'Explore Student Portal'
   },
   {
     id: 'teachers',
@@ -53,6 +61,9 @@ const roles = [
     sub: 'Automate Admin Work, Elevate Classroom Impact',
     description: 'Mark attendance digitally in seconds, upload assignments, share study materials, and post class updates — all without leaving the app. ConnectSkool frees teachers from repetitive administrative tasks so they can spend more time inspiring and educating students. Track student performance class-wide, share feedback instantly, and communicate with parents directly — making every teacher more effective and every classroom more productive.',
     image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&h=600&fit=crop',
+    alt: 'ConnectSkool Teacher Portal showing attendance marking, assignment upload, and class updates',
+    ctaLink: '/features/teachers',
+    ctaLabel: 'Explore Teacher Portal'
   },
   {
     id: 'management',
@@ -69,10 +80,13 @@ const roles = [
     sub: 'Total Institutional Control in One Dashboard',
     description: 'ConnectSkool transforms the Principal\'s office into a data-driven command center. Access real-time graphical dashboards showing student strength, fee collection, staff attendance, and payroll — all at a glance. The finance portal tracks day-wise fee collection and outstanding dues with full transparency. Generate salary slips, TC certificates, bonafide letters, and other critical documents in a single click — saving hours of manual work every week.',
     image: '/assets/moduleherooo.webp',
+    alt: 'ConnectSkool Management Dashboard showing real-time analytics, fee collection, and staff attendance',
+    ctaLink: '/features/management',
+    ctaLabel: 'Explore Management Portal'
   },
 ];
 
-// ─── Fallback placeholder (no changes) ─────────────────────────────────────
+// ─── FALLBACK DASHBOARD ─────────────────────────────────────────────────────
 function MockDashboard({ role }) {
   return (
     <div
@@ -110,12 +124,17 @@ function MockDashboard({ role }) {
   );
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function RoleBasedPortal() {
   const [active, setActive] = useState('management');
+  const [isHydrated, setIsHydrated] = useState(false);
   const role = roles.find((r) => r.id === active);
 
-  // Animation variants for image (scale from 0.92 to 1)
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  // Animation variants
   const imageVariants = {
     initial: { scale: 0.92, opacity: 0 },
     animate: { 
@@ -130,7 +149,6 @@ export default function RoleBasedPortal() {
     }
   };
 
-  // Animation variants for text (slide up from bottom)
   const textVariants = {
     initial: { opacity: 0, y: 40 },
     animate: { 
@@ -149,12 +167,17 @@ export default function RoleBasedPortal() {
     <section
       className="w-full py-8 px-4 md:px-8 lg:px-16"
       style={{ background: '#F7F8FB', fontFamily: "'DM Sans','Segoe UI',sans-serif" }}
+      aria-labelledby="role-based-heading"
     >
       <div className="max-w-[1500px] mx-auto">
 
         {/* ── Header ── */}
         <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-black" style={{ color: '#1E4E6D' }}>
+          <h2 
+            id="role-based-heading"
+            className="text-4xl md:text-5xl font-black" 
+            style={{ color: '#1E4E6D' }}
+          >
             School Management Software
           </h2>
           <p className="mt-2 text-xl font-bold uppercase tracking-[2.5px]" style={{ color: '#F0A80A' }}>
@@ -164,14 +187,21 @@ export default function RoleBasedPortal() {
         </div>
 
         {/* ── Role Tabs ── */}
-        <div className="flex justify-center items-end gap-8 md:gap-16  flex-wrap">
+        <div 
+          className="flex justify-center items-end gap-8 md:gap-16 flex-wrap"
+          role="tablist"
+          aria-label="Role-based portals"
+        >
           {roles.map((r) => {
             const isActive = r.id === active;
             return (
               <button
                 key={r.id}
                 onClick={() => setActive(r.id)}
-                className="group flex flex-col items-center gap-3 relative pb-5 transition-all"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Switch to ${r.label} portal`}
+                className="group flex flex-col items-center gap-3 relative pb-5 transition-all focus:outline-none focus:ring-2 focus:ring-[#F0A80A] focus:ring-offset-2 rounded-lg"
               >
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300"
@@ -203,7 +233,7 @@ export default function RoleBasedPortal() {
           })}
         </div>
 
-        {/* ── Main Card — NO border-radius, sharp edges ── */}
+        {/* ── Main Card ── */}
         <div
           className="w-full overflow-hidden"
           style={{
@@ -213,10 +243,13 @@ export default function RoleBasedPortal() {
         >
           <div className="grid lg:grid-cols-[52%_48%]" style={{ minHeight: '560px' }}>
 
-            {/* ── LEFT: text slide-up from bottom ── */}
+            {/* ── LEFT: Text ── */}
             <div className="relative px-10 md:px-14 lg:px-16 py-14 flex flex-col justify-center overflow-hidden">
-              <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none"
-                style={{ background: 'radial-gradient(circle, rgba(240,168,10,0.07) 0%, transparent 70%)' }} />
+              <div 
+                className="absolute -top-24 -left-24 w-96 h-96 rounded-full pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(240,168,10,0.07) 0%, transparent 70%)' }}
+                aria-hidden="true"
+              />
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -253,28 +286,29 @@ export default function RoleBasedPortal() {
                   </p>
 
                   <div className="pt-2">
-                    <motion.button
-                      whileHover={{ y: -3, boxShadow: '0 16px 40px rgba(240,168,10,0.45)' }}
-                      whileTap={{ scale: 0.97 }}
-                      className="inline-flex items-center gap-2.5 px-8 py-4 text-[12px] font-extrabold uppercase tracking-widest text-white transition-all"
+                    <Link
+                      href={role.ctaLink}
+                      className="inline-flex items-center gap-2.5 px-8 py-4 text-[12px] font-extrabold uppercase tracking-widest text-white transition-all hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#F0A80A] focus:ring-offset-2 focus:ring-offset-[#1E4E6D]"
                       style={{
                         background: 'linear-gradient(135deg, #F0A80A, #d4900a)',
                         boxShadow: '0 8px 28px rgba(240,168,10,0.38)',
                       }}
+                      aria-label={`Explore ${role.label} portal`}
                     >
                       Explore {role.label.replace('For ', '')} Portal
-                      <HiArrowUpRight size={15} />
-                    </motion.button>
+                      <HiArrowUpRight size={15} aria-hidden="true" />
+                    </Link>
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* ── RIGHT: image zooms in from small (scale 0.92 -> 1) ── */}
+            {/* ── RIGHT: Image ── */}
             <div className="relative overflow-hidden" style={{ minHeight: '420px' }}>
               <div
                 className="absolute inset-y-0 left-0 w-24 z-10 pointer-events-none"
                 style={{ background: 'linear-gradient(to right, #1E4E6D, transparent)' }}
+                aria-hidden="true"
               />
 
               <AnimatePresence mode="wait">
@@ -286,16 +320,22 @@ export default function RoleBasedPortal() {
                   exit="exit"
                   className="absolute inset-0"
                 >
-                  <img
-                    src={role.image}
-                    alt={role.label}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const fb = e.currentTarget.parentElement?.querySelector('.cs-fallback');
-                      if (fb) fb.style.display = 'block';
-                    }}
-                  />
+                  {isHydrated && (
+                    <Image
+                      src={role.image}
+                      alt={role.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 48vw"
+                      quality={85}
+                      priority={active === 'management'}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        const fb = e.currentTarget.parentElement?.querySelector('.cs-fallback');
+                        if (fb) fb.classList.remove('hidden');
+                      }}
+                    />
+                  )}
                   <div className="cs-fallback hidden absolute inset-0">
                     <MockDashboard role={role} />
                   </div>
@@ -315,6 +355,24 @@ export default function RoleBasedPortal() {
         </p>
 
       </div>
+
+      {/* ─── JSON-LD STRUCTURED DATA ────────────────────────────────────────── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "School Management Software - Role-Based Portals",
+            "description": "ConnectSkool offers role-based portals for parents, students, teachers, and management with features like attendance tracking, fee management, and real-time analytics.",
+            "about": {
+              "@type": "SoftwareApplication",
+              "name": "ConnectSkool",
+              "applicationCategory": "Education Management Software"
+            }
+          })
+        }}
+      />
     </section>
   );
 }

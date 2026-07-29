@@ -10,9 +10,9 @@ import BenefitsSection from '../../components/features/BenifitFeature'
 
 
 function Features() {
-  useEffect(() => {
-    document.title = 'ConnectSkool | Complete School ERP Software'
-  }, [])
+  // useEffect(() => {
+  //   document.title = 'ConnectSkool | Complete School ERP Software'
+  // }, [])
 
   return (
     <>
