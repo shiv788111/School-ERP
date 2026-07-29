@@ -1,8 +1,7 @@
 ﻿'use client'
 
 import { Shield, Users, Calculator, GraduationCap, ClipboardList, Wallet, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { useState, useMemo, Suspense } from "react";
+import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 
 // Lazy load heavy components
@@ -18,10 +17,11 @@ const ErpOrbit = dynamic(
   () => import("../shared/ErpOrbit"),
   { 
     ssr: false,
-    loading: () => <div className="w-64 h-64 bg-slate-800/50 rounded-full animate-pulse" />
+    loading: () => <div className="w-64 h-64 bg-slate-800/50 rounded-full animate-pulse" aria-hidden="true" />
   }
 );
 
+// ─── MODULES DATA ────────────────────────────────────────────────────────────
 const MODULES = [
   {
     id: "admin",
@@ -57,11 +57,9 @@ const MODULES = [
   },
 ];
 
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function HeroSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  // Memoize modules to prevent unnecessary re-renders
-  const modules = useMemo(() => MODULES, []);
 
   return (
     <section 
@@ -78,24 +76,26 @@ export default function HeroSection() {
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:pb-28">
         {/* ── LEFT COLUMN ── */}
         <div className="relative z-10">
-          {/* Heading */}
+          {/* Heading - SEO Optimized */}
           <h1 id="hero-heading" className="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-            The Smarter Way to{" "}
+            Complete School ERP Software to{" "}
             <span className="bg-gradient-to-r from-[#F0970A] to-[#F0970A] bg-clip-text text-transparent">
-              Run Your School.
+              Run Your School Smarter
             </span>
           </h1>
 
-          {/* Subtext */}
+          {/* Subtext - SEO Optimized */}
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
-            ConnectSkool brings every part of your school under one roof — admissions, attendance, fees, exams, and staff — so you can focus on education, not paperwork.
+            ConnectSkool is a comprehensive School ERP Software that helps schools manage admissions, 
+            attendance, fee collection, examinations, transport, staff management, and parent communication 
+            from a single platform.
           </p>
 
           {/* CTA Buttons */}
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               onClick={() => setIsModalOpen(true)}
-              aria-label="Book a free demo"
+              aria-label="Book a free demo of ConnectSkool School ERP"
               className="flex items-center gap-2 rounded-full bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white border-2 border-[#F0970A] shadow-lg shadow-[#F0970A]/30 transition-all duration-300 ease-out hover:bg-white hover:text-black hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2 focus:ring-offset-slate-900"
             >
               Book Free Demo
@@ -106,7 +106,7 @@ export default function HeroSection() {
               href="https://play.google.com/store/apps/details?id=com.connectskool.app"
               target="_blank" 
               rel="noopener noreferrer"
-              aria-label="Download ConnectSkool app from Google Play Store"
+              aria-label="Download ConnectSkool School ERP mobile app from Google Play Store"
               className="flex items-center gap-2 rounded-full bg-[#F0970A] px-6 py-3 text-sm font-semibold text-white border-2 border-[#F0970A] shadow-lg shadow-[#F0970A]/30 transition-all duration-300 ease-out hover:bg-white hover:text-black hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#F0970A] focus:ring-offset-2 focus:ring-offset-slate-900"
             >
               <span className="text-lg" aria-hidden="true">▶</span>
@@ -116,7 +116,7 @@ export default function HeroSection() {
 
           {/* MODULE BUTTONS */}
           <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="School management modules">
-            {modules.map((module) => {
+            {MODULES.map((module) => {
               const Icon = module.icon;
               const hasLink = !!module.href;
 
@@ -292,9 +292,7 @@ export default function HeroSection() {
 
           {/* ErpOrbit Animation */}
           <div className="absolute -right-[110px] -bottom-[80px] z-30 opacity-90 transition-opacity duration-300 hover:opacity-100">
-            <Suspense fallback={<div className="w-64 h-64 bg-slate-800/50 rounded-full animate-pulse" />}>
-              <ErpOrbit />
-            </Suspense>
+            <ErpOrbit />
           </div>
         </div>
       </div>
@@ -303,6 +301,28 @@ export default function HeroSection() {
       <DemoPopModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
+      />
+
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "ConnectSkool School ERP Software",
+            "description": "Complete school management software for admissions, attendance, fees, exams, transport, and staff management.",
+            "applicationCategory": "Education Management Software",
+            "operatingSystem": "Web, Android, iOS",
+            "browserRequirements": "Modern browsers",
+            "url": "https://www.connectskool.com",
+            "offers": {
+              "@type": "Offer",
+              "description": "Free demo available",
+              "availability": "https://schema.org/InStock"
+            }
+          })
+        }}
       />
     </section>
   );
