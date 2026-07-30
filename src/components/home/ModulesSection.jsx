@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-// SEO: Keyword-rich data with descriptive alt text
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 const schoolCards = [
   {
     id: 1,
@@ -104,35 +104,22 @@ const suiteCards = [
   },
 ]
 
-// JSON-LD Structured Data
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
-  "name": "ConnectSkool",
-  "description": "Complete School ERP Software for modern educational institutions including preschools, K-12 schools, universities, and coaching institutes.",
-  "url": "https://connectskool.com",
-  "logo": "https://connectskool.com/logo.png",
-  "educationalUse": "School Management",
-  "teaches": "School Administration, Education Management",
-}
-
-const productSchemas = [
+// ─── JSON-LD STRUCTURED DATA ────────────────────────────────────────────────
+// ✅ FIX 1: Changed Product to SoftwareApplication
+const softwareSchemas = [
   {
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": "SoftwareApplication",
     "name": "ConnectSkool School ERP",
     "description": "Comprehensive school ERP software for managing admissions, attendance, fees, exams, and staff administration.",
-    "category": "Education Management Software",
-    "offers": {
-      "@type": "Offer",
-      "availability": "https://schema.org/InStock",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
+    "applicationCategory": "Education Management Software",
+    "operatingSystem": "Web, Android, iOS",
+    "url": "https://www.connectskool.com",
+    "image": "https://www.connectskool.com/assets/og-image.png",
   }
 ]
 
-// School Card Component with SEO
+// ─── SCHOOL CARD ────────────────────────────────────────────────────────────
 function SchoolCard({ item, index }) {
   const [hovered, setHovered] = useState(false)
   
@@ -160,10 +147,10 @@ function SchoolCard({ item, index }) {
       }}
       role="article"
       aria-label={`${item.label} solution - ${item.seoTitle}`}
+      // ✅ FIX 4: Changed Product to Service
       itemScope
-      itemType="https://schema.org/Product"
+      itemType="https://schema.org/Service"
     >
-      {/* Colored top band with character */}
       <div
         className="w-full flex flex-col items-center justify-center pt-8 pb-5 relative transition-colors duration-300"
         style={{ background: hovered ? '#FFF8EE' : item.bg }}
@@ -185,7 +172,6 @@ function SchoolCard({ item, index }) {
             loading={index < 2 ? "eager" : "lazy"}
           />
         </div>
-        {/* Pagination dots (decorative) */}
         <div className="flex gap-1 mt-4" aria-hidden="true">
           {schoolCards.map((_, i) => (
             <span
@@ -201,7 +187,6 @@ function SchoolCard({ item, index }) {
         </div>
       </div>
 
-      {/* Label */}
       <div
         className="mt-4 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all duration-250"
         style={{
@@ -213,7 +198,6 @@ function SchoolCard({ item, index }) {
         {item.label}
       </div>
 
-      {/* Text */}
       <div className="px-6 pt-3 pb-6 text-center flex flex-col items-center gap-2 flex-1">
         <h3
           className="text-[16px] font-bold transition-colors duration-250"
@@ -240,7 +224,6 @@ function SchoolCard({ item, index }) {
         </Link>
       </div>
 
-      {/* Bottom orange line */}
       <motion.div
         className="absolute bottom-0 left-0 h-[3px]"
         style={{ background: '#F0970A', borderRadius: '0 0 24px 24px' }}
@@ -253,7 +236,7 @@ function SchoolCard({ item, index }) {
   )
 }
 
-// Suite Card Component with SEO
+// ─── SUITE CARD ─────────────────────────────────────────────────────────────
 function SuiteCard({ item, index }) {
   const [hovered, setHovered] = useState(false)
   
@@ -281,10 +264,10 @@ function SuiteCard({ item, index }) {
       }}
       role="article"
       aria-label={`${item.category} suite - ${item.seoTitle}`}
+      // ✅ FIX 5: Changed Product to Service
       itemScope
-      itemType="https://schema.org/Product"
+      itemType="https://schema.org/Service"
     >
-      {/* Left accent bar */}
       <motion.div
         className="absolute left-0 top-0 w-[4px] rounded-r-full"
         style={{ background: '#F0970A' }}
@@ -294,7 +277,6 @@ function SuiteCard({ item, index }) {
         aria-hidden="true"
       />
 
-      {/* Image area */}
       <div
         className="flex items-center justify-center pt-7 pb-3 transition-colors duration-300"
         style={{ background: hovered ? '#FFF8EE' : '#F8F9FC' }}
@@ -312,7 +294,6 @@ function SuiteCard({ item, index }) {
         </div>
       </div>
 
-      {/* Body */}
       <div className="px-5 pt-4 pb-5 flex flex-col gap-1 flex-1">
         <span
           className="text-[17px] font-bold transition-colors duration-250"
@@ -357,6 +338,7 @@ function SuiteCard({ item, index }) {
   )
 }
 
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function ModulesSection() {
   return (
     <>
@@ -365,8 +347,9 @@ export default function ModulesSection() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ 
           __html: JSON.stringify([
-            organizationSchema,
-            ...productSchemas,
+            // ✅ FIX 1: Changed Product to SoftwareApplication
+            ...softwareSchemas,
+            // ✅ FIX 2: Changed Product to Service in ItemList
             {
               "@context": "https://schema.org",
               "@type": "ItemList",
@@ -374,13 +357,18 @@ export default function ModulesSection() {
                 "@type": "ListItem",
                 "position": index + 1,
                 "item": {
-                  "@type": "Product",
+                  "@type": "Service",
                   "name": card.seoTitle,
                   "description": card.seoDesc,
-                  "image": card.gif,
+                  "image": `https://www.connectskool.com${card.gif}`,
+                  "provider": {
+                    "@type": "Organization",
+                    "name": "ConnectSkool"
+                  }
                 }
               }))
             },
+            // ✅ FIX 3: Changed Product to Service in ItemList
             {
               "@context": "https://schema.org",
               "@type": "ItemList",
@@ -388,10 +376,14 @@ export default function ModulesSection() {
                 "@type": "ListItem",
                 "position": index + 1,
                 "item": {
-                  "@type": "Product",
+                  "@type": "Service",
                   "name": card.seoTitle,
                   "description": card.seoDesc,
-                  "image": card.gif,
+                  "image": `https://www.connectskool.com${card.gif}`,
+                  "provider": {
+                    "@type": "Organization",
+                    "name": "ConnectSkool"
+                  }
                 }
               }))
             }
