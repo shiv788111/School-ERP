@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import HeroSection from '../../components/home/HeroSection'
 import TrustedSection from '../../components/home/TrustedSection'
 import ProblemSolutionSection from '../../components/home/ProblemSolutionSection'
@@ -12,9 +12,6 @@ import TestimonialsSection from '../../components/home/TestimonialsSection'
 import CTASection from '../../components/home/CTASection'
 
 // ─── LAZY LOAD BELOW-THE-FOLD SECTIONS ──────────────────────────────
-// These components are not immediately visible, so we lazy load them
-// to improve LCP and FCP performance
-
 const ScreenshotsSection = lazy(() => 
   import('../../components/home/ScreenshotsSection')
 )
@@ -35,10 +32,15 @@ function SectionLoader() {
 }
 
 function Home() {
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
   return (
     <>
       {/* ─── CRITICAL ABOVE-THE-FOLD CONTENT ──────────────────────────── */}
-      {/* These load immediately for fast LCP */}
       <HeroSection />
       <TrustedSection />
       <ProblemSolutionSection />
@@ -46,9 +48,7 @@ function Home() {
       <ModulesSection />
       <DashboardSection />
 
-      {/* ─── BELOW-THE-FOLD CONTENT (LAZY LOADED) ────────────────────── */}
-      {/* These load only when needed, improving initial load time */}
-      
+      {/* ─── BELOW-THE-FOLD CONTENT ────────────────────────────────────── */}
       <Suspense fallback={<SectionLoader />}>
         <BenefitsSection />
       </Suspense>
@@ -57,21 +57,12 @@ function Home() {
         <TestimonialsSection />
       </Suspense>
 
-      {/* Uncomment when needed */}
-      {/* <Suspense fallback={<SectionLoader />}>
-        <ScreenshotsSection />
-      </Suspense> */}
-
-      {/* Uncomment when needed */}
-      {/* <Suspense fallback={<SectionLoader />}>
-        <PricingSection />
-      </Suspense> */}
-
-      {/* ─── FINAL CTA ──────────────────────────────────────────────────── */}
-      {/* Always visible, but loads after critical content */}
-      <Suspense fallback={<SectionLoader />}>
-        <CTASection />
-      </Suspense>
+      {/* Only render CTASection after hydration to prevent mismatch */}
+      {isHydrated && (
+        <Suspense fallback={<SectionLoader />}>
+          <CTASection />
+        </Suspense>
+      )}
     </>
   )
 }
