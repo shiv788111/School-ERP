@@ -88,7 +88,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en-IN">
       <head>
-        {/* ─── FIXED: SINGLE SOFTWAREAPPLICATION SCHEMA ────────────────── */}
+        {/* ─── FIXED: REMOVED PRODUCT/OFFER SCHEMA ────────────────────── */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -167,8 +167,10 @@ export default function RootLayout({ children }) {
                     },
                   ],
                 },
+                // ─── SOFTWAREAPPLICATION WITHOUT OFFERS ──────────────
+                // ✅ Removed 'offers' field to prevent Product interpretation
+                // ✅ Added 'image' field to satisfy Google requirements
                 {
-                  // ✅ SINGLE SOFTWAREAPPLICATION - NOT MULTIPLE PRODUCTS
                   '@type': 'SoftwareApplication',
                   '@id': 'https://www.connectskool.com/#software',
                   name: 'ConnectSkool School ERP Software',
@@ -176,12 +178,7 @@ export default function RootLayout({ children }) {
                   operatingSystem: 'Web, Android, iOS',
                   description: 'Complete school management software for admissions, attendance, fees, exams, transport, and staff management.',
                   url: 'https://www.connectskool.com',
-                  offers: {
-                    '@type': 'Offer',
-                    description: 'Free demo available',
-                    availability: 'https://schema.org/InStock',
-                  },
-                  // ✅ Features listed as properties, not separate Products
+                  image: 'https://www.connectskool.com/assets/og-image.png', // ✅ Added image
                   featureList: [
                     'Attendance Management',
                     'Fee Management',
@@ -194,7 +191,6 @@ export default function RootLayout({ children }) {
                     'Mobile Apps',
                     'Cloud-Based Platform'
                   ],
-                  // ✅ Modules as part of the same application
                   applicationSubCategory: [
                     'Pre-Primary School Management',
                     'Primary School Management',
