@@ -88,7 +88,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en-IN">
       <head>
-        {/* ─── FIXED: REMOVED PRODUCT/OFFER SCHEMA ────────────────────── */}
+        {/* ─── SINGLE COMPLETE SOFTWAREAPPLICATION SCHEMA ────────────── */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -112,6 +112,8 @@ export default function RootLayout({ children }) {
                   address: {
                     '@type': 'PostalAddress',
                     streetAddress: 'Gaur City Mall, Sector-4, Greater Noida, UP – 201318',
+                    addressLocality: 'Greater Noida',  // ✅ Added
+                    postalCode: '201318',              // ✅ Added
                     addressCountry: 'IN',
                   },
                 },
@@ -167,18 +169,29 @@ export default function RootLayout({ children }) {
                     },
                   ],
                 },
-                // ─── SOFTWAREAPPLICATION WITHOUT OFFERS ──────────────
-                // ✅ Removed 'offers' field to prevent Product interpretation
-                // ✅ Added 'image' field to satisfy Google requirements
+                // ─── SINGLE COMPLETE SOFTWAREAPPLICATION ──────────────
                 {
                   '@type': 'SoftwareApplication',
                   '@id': 'https://www.connectskool.com/#software',
                   name: 'ConnectSkool School ERP Software',
                   applicationCategory: 'Education Management Software',
+                  applicationSubCategory: 'School ERP',
                   operatingSystem: 'Web, Android, iOS',
-                  description: 'Complete school management software for admissions, attendance, fees, exams, transport, and staff management.',
+                  browserRequirements: 'Modern browsers',
+                  description:
+                    'Complete school management software for admissions, attendance, fees, exams, transport, and staff management.',
                   url: 'https://www.connectskool.com',
-                  image: 'https://www.connectskool.com/assets/og-image.png', // ✅ Added image
+                  image: 'https://www.connectskool.com/assets/og-image.png',
+                  softwareVersion: '1.0',
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'FounderCodes',
+                  },
+                  offers: {
+                    '@type': 'Offer',
+                    description: 'Free demo available',
+                    availability: 'https://schema.org/InStock',
+                  },
                   featureList: [
                     'Attendance Management',
                     'Fee Management',
@@ -189,7 +202,7 @@ export default function RootLayout({ children }) {
                     'Parent Communication',
                     'Real-Time Analytics',
                     'Mobile Apps',
-                    'Cloud-Based Platform'
+                    'Cloud-Based Platform',
                   ],
                   applicationSubCategory: [
                     'Pre-Primary School Management',
@@ -199,8 +212,8 @@ export default function RootLayout({ children }) {
                     'K-12 School Management',
                     'Preschool Management',
                     'Coaching Institute Management',
-                    'Tutor Management'
-                  ]
+                    'Tutor Management',
+                  ],
                 },
               ],
             }),
