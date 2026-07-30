@@ -12,7 +12,7 @@ export const metadata = {
   },
 
   description:
-    'ConnectSkool by FounderCodes - Complete school ERP software with mobile app, attendance, fee management & SMS notifications. Based in Greater Noida.',
+    'ConnectSkool is a complete School ERP Software that simplifies admissions, attendance, fee management, examinations, transport, and parent communication.',
 
   keywords: [
     'school erp software',
@@ -21,6 +21,15 @@ export const metadata = {
     'school management software india',
     'fee management software',
     'attendance management system',
+    'school administration software',
+    'education erp',
+    'cloud school erp',
+    'school automation',
+    'online school management',
+    'parent communication app',
+    'exam management system',
+    'transport management system',
+    'ConnectSkool',
   ],
 
   authors: [{ name: 'FounderCodes' }],
@@ -39,8 +48,13 @@ export const metadata = {
     },
   },
 
+  alternates: {
+    canonical: 'https://www.connectskool.com',
+  },
+
   icons: {
     icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
 
@@ -50,7 +64,7 @@ export const metadata = {
     siteName: 'ConnectSkool',
     title: 'ConnectSkool | School ERP Software with Mobile App',
     description:
-      'Complete school ERP by FounderCodes. Mobile apps, attendance, fees & SMS alerts. Serving schools across India.',
+      'Complete school ERP software for admissions, attendance, fees, exams, and communication. Trusted by schools across India.',
     images: [
       {
         url: '/assets/og-image.png',
@@ -65,12 +79,8 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'ConnectSkool | School ERP Software',
     description:
-      'Modern school management with ERP, mobile apps & parent communication. By FounderCodes, Greater Noida.',
+      'Complete school management system with ERP, mobile apps & parent communication. By FounderCodes.',
     images: ['/assets/og-image.png'],
-  },
-
-  alternates: {
-    canonical: 'https://www.connectskool.com',
   },
 };
 
@@ -78,6 +88,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en-IN">
       <head>
+        {/* ─── FIXED: REMOVED PRODUCT/OFFER SCHEMA ────────────────────── */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -140,7 +151,7 @@ export default function RootLayout({ children }) {
                       name: 'How can I get a demo of ConnectSkool?',
                       acceptedAnswer: {
                         '@type': 'Answer',
-                        text: 'Contact our sales team at +91-9236788668 or email sales@foundercodes.com. Visit us at Gaur City Mall, Sector-4, Greater Noida, UP – 201318.',
+                        text: 'Contact our sales team at +91-9236788668 or email sales@foundercodes.com to book a free demo.',
                       },
                     },
                   ],
@@ -155,6 +166,41 @@ export default function RootLayout({ children }) {
                       item: 'https://www.connectskool.com',
                     },
                   ],
+                },
+                // ─── SOFTWAREAPPLICATION WITHOUT OFFERS ──────────────
+                // ✅ Removed 'offers' field to prevent Product interpretation
+                // ✅ Added 'image' field to satisfy Google requirements
+                {
+                  '@type': 'SoftwareApplication',
+                  '@id': 'https://www.connectskool.com/#software',
+                  name: 'ConnectSkool School ERP Software',
+                  applicationCategory: 'Education Management Software',
+                  operatingSystem: 'Web, Android, iOS',
+                  description: 'Complete school management software for admissions, attendance, fees, exams, transport, and staff management.',
+                  url: 'https://www.connectskool.com',
+                  image: 'https://www.connectskool.com/assets/og-image.png', // ✅ Added image
+                  featureList: [
+                    'Attendance Management',
+                    'Fee Management',
+                    'Examination Management',
+                    'Transport Management',
+                    'Student Management',
+                    'Staff Management',
+                    'Parent Communication',
+                    'Real-Time Analytics',
+                    'Mobile Apps',
+                    'Cloud-Based Platform'
+                  ],
+                  applicationSubCategory: [
+                    'Pre-Primary School Management',
+                    'Primary School Management',
+                    'Senior Secondary School Management',
+                    'University Management',
+                    'K-12 School Management',
+                    'Preschool Management',
+                    'Coaching Institute Management',
+                    'Tutor Management'
+                  ]
                 },
               ],
             }),

@@ -29,7 +29,7 @@ const MODULES = [
     title: "Admin Control Center",
     desc: "Centralized access to manage all school operations, staff, and system settings.",
     icon: Shield,
-    href: "https://school-admin-dashbord-techeradmin-a.vercel.app/login", 
+    href: "https://connectskool-admin-dashboard.vercel.app/login", 
   },
   {
     id: "teacher",
@@ -37,7 +37,7 @@ const MODULES = [
     title: "Teacher Workspace",
     desc: "Plan lessons, track student progress, manage assignments, and communicate with parents.",
     icon: Users,
-    href: "https://school-admin-dashbord-techeradmin-a.vercel.app/login",
+    href: "https://connectskool-admin-dashboard.vercel.app/login",
   },
   {
     id: "accountant",
@@ -45,7 +45,7 @@ const MODULES = [
     title: "Accounts & Ledger",
     desc: "Keep budgets, track expenses, manage fee collections, and generate financial reports.",
     icon: Calculator,
-    href: "https://school-admin-dashbord-techeradmin-a.vercel.app/login",
+    href: "https://connectskool-admin-dashboard.vercel.app/login",
   },
   {
     id: "student",
@@ -103,7 +103,7 @@ export default function HeroSection() {
             </button>
 
             <a 
-              href="https://play.google.com/store/apps/details?id=com.connectskool.app"
+              href="https://play.google.com/store/apps/details?id=com.connectskool.schoolerp&pcampaignid=web_share"
               target="_blank" 
               rel="noopener noreferrer"
               aria-label="Download ConnectSkool School ERP mobile app from Google Play Store"

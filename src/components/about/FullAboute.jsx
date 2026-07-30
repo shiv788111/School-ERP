@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   Target,
   Lightbulb,
@@ -51,11 +52,13 @@ const IconCard = ({ icon: Icon, title, desc, delay }) => (
     transition={{ delay, duration: 0.5 }}
     whileHover={{ y: -8, transition: { duration: 0.3 } }}
     className="group relative p-6 rounded-2xl bg-white/70 backdrop-blur-md border border-transparent hover:border-[#F0970A] transition-all duration-300 hover:shadow-xl hover:bg-white"
+    role="article"
+    aria-label={`Feature: ${title}`}
   >
     <div className="flex items-start gap-4">
       <div className="flex-shrink-0">
         <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#1E4E6D]/10 to-[#F0970A]/10 text-[#1E4E6D] group-hover:from-[#F0970A]/20 group-hover:to-[#F0970A]/10 group-hover:text-[#F0970A] transition-all duration-300">
-          <Icon size={28} />
+          <Icon size={28} aria-hidden="true" />
         </div>
       </div>
       <div>
@@ -78,12 +81,14 @@ const StatCard = ({ value, label, icon: Icon }) => {
       viewport={{ once: true }}
       whileHover={{ scale: 1.05 }}
       className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-gray-50 border border-[#F0970A]/20 p-8 hover:border-[#F0970A]/50 transition-all duration-300 hover:shadow-xl"
+      role="article"
+      aria-label={`Statistic: ${value} ${label}`}
     >
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#F0970A]/10 to-transparent rounded-full blur-3xl -mr-8 -mt-8 group-hover:from-[#F0970A]/20 transition-all duration-300" />
+      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#F0970A]/10 to-transparent rounded-full blur-3xl -mr-8 -mt-8 group-hover:from-[#F0970A]/20 transition-all duration-300" aria-hidden="true" />
 
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-4">
-          <Icon className="w-8 h-8 text-[#F0970A]" />
+          <Icon className="w-8 h-8 text-[#F0970A]" aria-hidden="true" />
           <div className="text-3xl font-bold bg-gradient-to-r from-[#1E4E6D] to-[#F0970A] bg-clip-text text-transparent">
             {value}
           </div>
@@ -179,9 +184,14 @@ export default function AboutSections() {
   return (
     <div className="bg-white overflow-hidden">
       {/* ================= HERO SECTION ================= */}
-
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto text-center">
-        <h2 className="text-3xl md:text-5xl font-bold text-[#275572] mb-6">
+      <section 
+        className="py-20 px-6 md:px-12 max-w-7xl mx-auto text-center"
+        aria-labelledby="purpose-heading"
+      >
+        <h2 
+          id="purpose-heading"
+          className="text-3xl md:text-5xl font-bold text-[#275572] mb-6"
+        >
           Our <span className="text-[#F0970A]">Purpose</span>
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
@@ -190,70 +200,12 @@ export default function AboutSections() {
           that saves time and reduces manual effort.
         </p>
       </section>
-      {/* ================= MISSION & VALUES ================= */}
-      {/* <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="space-y-8">
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#F0970A]/20 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-[#F0970A]" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-[#1E4E6D]">Our Mission</h3>
-                </div>
-                <p className="text-gray-600 leading-relaxed text-lg">
-                  To simplify school operations and empower educators to spend less time on administration and more time transforming young minds.
-                </p>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#F0970A]/20 flex items-center justify-center">
-                    <Lightbulb className="w-5 h-5 text-[#F0970A]" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-[#1E4E6D]">Our Vision</h3>
-                </div>
-                <p className="text-gray-600 leading-relaxed text-lg">
-                  A world where technology removes barriers to education, allowing schools of all sizes to deliver quality learning experiences.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-2 gap-4"
-          >
-            {[
-              { icon: Users, label: "Student-Centric" },
-              { icon: Lock, label: "Secure by Default" },
-              { icon: Zap, label: "Innovation First" },
-              { icon: Heart, label: "People-Focused" },
-            ].map((item, i) => {
-              const Icon = item.icon
-              return (
-                <div key={i} className="p-6 rounded-xl bg-gradient-to-br from-[#F0970A]/10 to-[#1E4E6D]/5 border border-[#F0970A]/20 text-center hover:border-[#F0970A]/50 transition-all">
-                  <Icon className="w-8 h-8 text-[#F0970A] mx-auto mb-3" />
-                  <p className="font-semibold text-[#1E4E6D] text-sm">{item.label}</p>
-                </div>
-              )
-            })}
-          </motion.div>
-        </div>
-      </section> */}
 
       {/* ================= PROBLEM & SOLUTION ================= */}
-      <section className="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-50 to-white">
+      <section 
+        className="py-20 px-6 md:px-12 bg-gradient-to-b from-gray-50 to-white"
+        aria-labelledby="problem-heading"
+      >
         <div className="max-w-7xl mx-auto">
           {/* PROBLEM */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
@@ -265,7 +217,10 @@ export default function AboutSections() {
               <div className="inline-block mb-4 px-3 py-1 rounded-full bg-red-100 text-red-600 text-xs font-semibold">
                 THE CHALLENGE
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-6">
+              <h2 
+                id="problem-heading"
+                className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-6"
+              >
                 Schools are struggling with outdated systems
               </h2>
 
@@ -275,6 +230,7 @@ export default function AboutSections() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 className="space-y-4"
+                role="list"
               >
                 {[
                   "Manual attendance registers waste 2-3 hours daily",
@@ -288,8 +244,9 @@ export default function AboutSections() {
                     key={i}
                     variants={itemVariants}
                     className="flex gap-3 items-start"
+                    role="listitem"
                   >
-                    <div className="flex-shrink-0 mt-1">
+                    <div className="flex-shrink-0 mt-1" aria-hidden="true">
                       <div className="flex items-center justify-center h-6 w-6 rounded-full bg-red-100">
                         <span className="text-red-600 text-sm">✕</span>
                       </div>
@@ -304,12 +261,15 @@ export default function AboutSections() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               viewport={{ once: true }}
-              className="hidden md:block h-96 rounded-2xl overflow-hidden"
+              className="hidden md:block h-96 rounded-2xl overflow-hidden relative"
             >
-              <img
+              <Image
                 src="/assets/problmabout.webp"
-                alt="School Dashboard"
-                className="w-full h-full object-cover"
+                alt="School management challenges - outdated systems with manual attendance registers, fee tracking errors, and communication gaps"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
               />
             </motion.div>
           </div>
@@ -321,12 +281,15 @@ export default function AboutSections() {
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               viewport={{ once: true }}
-              className="hidden md:block h-96 rounded-2xl overflow-hidden"
+              className="hidden md:block h-96 rounded-2xl overflow-hidden relative"
             >
-              <img
+              <Image
                 src="/assets/solutionaboute.webp"
-                alt="about"
-                className="w-full h-full object-cover"
+                alt="ConnectSkool school management solution dashboard showing modern ERP features"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
               />
             </motion.div>
             <motion.div
@@ -347,6 +310,7 @@ export default function AboutSections() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 className="space-y-4"
+                role="list"
               >
                 {[
                   "Biometric & app-based attendance in seconds",
@@ -360,8 +324,9 @@ export default function AboutSections() {
                     key={i}
                     variants={itemVariants}
                     className="flex gap-3 items-start"
+                    role="listitem"
                   >
-                    <div className="flex-shrink-0 mt-1">
+                    <div className="flex-shrink-0 mt-1" aria-hidden="true">
                       <div className="flex items-center justify-center h-6 w-6 rounded-full bg-green-100">
                         <CheckCircle2 size={16} className="text-green-600" />
                       </div>
@@ -376,7 +341,10 @@ export default function AboutSections() {
       </section>
 
       {/* ================= HOW IT WORKS ================= */}
-      <section className="py-20 px-6 md:px-12 bg-[#1E4E6D]">
+      <section 
+        className="py-20 px-6 md:px-12 bg-[#1E4E6D]"
+        aria-labelledby="how-it-works-heading"
+      >
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -384,7 +352,10 @@ export default function AboutSections() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 
+              id="how-it-works-heading"
+              className="text-4xl md:text-5xl font-bold text-white mb-4"
+            >
               From Setup to Success
             </h2>
             <p className="text-white/70 max-w-2xl mx-auto text-lg">
@@ -393,7 +364,7 @@ export default function AboutSections() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 gap-6" role="list">
             {howItWorks.map((item, i) => (
               <motion.div
                 key={i}
@@ -403,8 +374,9 @@ export default function AboutSections() {
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ y: -8 }}
                 className="relative group"
+                role="listitem"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#F0970A]/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#F0970A]/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
                 <div className="relative p-6 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm group-hover:border-[#F0970A]/50 transition-all duration-300">
                   <div className="w-12 h-12 rounded-xl bg-[#F0970A] text-[#1E4E6D] flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-110 transition-transform">
                     {item.step}
@@ -417,7 +389,7 @@ export default function AboutSections() {
                   </p>
 
                   {i < 3 && (
-                    <div className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 text-[#F0970A]">
+                    <div className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 text-[#F0970A]" aria-hidden="true">
                       <Rocket size={20} className="rotate-90" />
                     </div>
                   )}
@@ -429,14 +401,20 @@ export default function AboutSections() {
       </section>
 
       {/* ================= STATS ================= */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+      <section 
+        className="py-20 px-6 md:px-12 max-w-7xl mx-auto"
+        aria-labelledby="impact-heading"
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-4">
+          <h2 
+            id="impact-heading"
+            className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-4"
+          >
             Making Real Impact
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -444,7 +422,7 @@ export default function AboutSections() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 gap-6" role="list">
           <StatCard value="500+" label="Schools Connected" icon={Users} />
           <StatCard value="50K+" label="Students Managed" icon={Users} />
           <StatCard value="10+ Hrs" label="Saved Weekly" icon={Clock} />
@@ -453,7 +431,10 @@ export default function AboutSections() {
       </section>
 
       {/* ================= KEY FEATURES ================= */}
-      <section className="py-20 px-6 md:px-12 bg-gradient-to-b from-white to-gray-50">
+      <section 
+        className="py-20 px-6 md:px-12 bg-gradient-to-b from-white to-gray-50"
+        aria-labelledby="features-heading"
+      >
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -461,7 +442,10 @@ export default function AboutSections() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-4">
+            <h2 
+              id="features-heading"
+              className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-4"
+            >
               Built for Modern Schools
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -476,6 +460,7 @@ export default function AboutSections() {
             whileInView="visible"
             viewport={{ once: true }}
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            role="list"
           >
             {[
               {
@@ -522,14 +507,20 @@ export default function AboutSections() {
       </section>
 
       {/* ================= WHY CONNECTSKOOL ================= */}
-      <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+      <section 
+        className="py-20 px-6 md:px-12 max-w-7xl mx-auto"
+        aria-labelledby="why-us-heading"
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-4">
+          <h2 
+            id="why-us-heading"
+            className="text-4xl md:text-5xl font-bold text-[#1E4E6D] mb-4"
+          >
             Why <span className="text-[#F0970A]">500+ Schools</span> Choose Us
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -544,6 +535,7 @@ export default function AboutSections() {
           whileInView="visible"
           viewport={{ once: true }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          role="list"
         >
           {whyUsItems.map((item, i) => {
             const Icon = item.icon;
@@ -553,11 +545,12 @@ export default function AboutSections() {
                 variants={itemVariants}
                 whileHover={{ y: -8 }}
                 className="group p-6 rounded-2xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 hover:border-[#F0970A] transition-all duration-300 hover:shadow-xl"
+                role="listitem"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F0970A]/10 text-[#F0970A] group-hover:scale-110 transition-transform">
-                      <Icon size={24} />
+                      <Icon size={24} aria-hidden="true" />
                     </div>
                   </div>
                   <div className="flex-1">
@@ -574,50 +567,6 @@ export default function AboutSections() {
           })}
         </motion.div>
       </section>
-
-      {/* ================= JOURNEY ================= */}
-      {/* <section className="py-20 px-6 md:px-12 bg-gradient-to-r from-[#1E4E6D] to-[#275572]">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Journey</h2>
-            <p className="text-white/70 text-lg max-w-2xl mx-auto">
-              From a startup dream to trusted by hundreds of schools across India
-            </p>
-          </motion.div>
-
-          <div className="space-y-8">
-            {journeySteps.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`flex gap-8 items-center ${i % 2 === 1 ? 'flex-row-reverse' : ''}`}
-              >
-                <div className="flex-1">
-                  <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:border-[#F0970A]/50 transition-all">
-                    <div className="text-3xl font-bold text-[#F0970A] mb-2">{item.year}</div>
-                    <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-white/70">{item.desc}</p>
-                  </div>
-                </div>
-                <div className="flex-shrink-0">
-                  <div className="w-6 h-6 rounded-full bg-[#F0970A] border-4 border-[#1E4E6D]" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
-      {/* ================= CTA SECTION ================= */}
     </div>
   );
 }
-
