@@ -72,6 +72,9 @@ const trustSignals = [
 
 // ─── JSON-LD STRUCTURED DATA ───────────────────────────────────────────────
 function PricingSchema() {
+  // Filter out Custom plan from offers (no price)
+  const availablePlans = plans.filter(plan => plan.price !== 'Custom');
+  
   // Single SoftwareApplication with multiple offers
   const softwareSchema = {
     "@context": "https://schema.org",
@@ -79,14 +82,22 @@ function PricingSchema() {
     "name": "ConnectSkool School ERP Software",
     "description": "Complete school management software with flexible pricing plans for schools of every size. Includes attendance, fee management, examinations, transport, and staff management.",
     "applicationCategory": "Education Management Software",
+    "applicationSubCategory": "School ERP",
     "operatingSystem": "Web, Android, iOS",
     "browserRequirements": "Modern browsers",
-    "url": "https://connectskool.com",
-    "offers": plans.map((plan) => ({
+    "url": "https://www.connectskool.com",
+    "image": "https://www.connectskool.com/assets/og-image.png",
+    "softwareVersion": "1.0",
+    "publisher": {
+      "@type": "Organization",
+      "name": "FounderCodes"
+    },
+    // Only include plans with actual prices (exclude Custom)
+    "offers": availablePlans.map((plan) => ({
       "@type": "Offer",
       "name": `${plan.name} Plan`,
       "description": plan.desc,
-      "price": plan.price === 'Custom' ? "0" : plan.price.replace(',', ''),
+      "price": plan.price.replace(',', ''),
       "priceCurrency": "INR",
       "availability": "https://schema.org/InStock",
       "validFrom": new Date().toISOString().split('T')[0],
