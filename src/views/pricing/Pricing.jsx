@@ -22,8 +22,6 @@ const plans = [
     popular: false,
     slug: 'dashboard',
     ctaText: 'Book Free Demo',
-    seoTitle: 'School Dashboard Plan - ₹10,000/year',
-    seoDesc: 'Powerful school management dashboard with attendance, fee management, and analytics for up to 300 students.',
     badge: 'Starter'
   },
   {
@@ -41,8 +39,6 @@ const plans = [
     popular: true,
     slug: 'mobile-app',
     ctaText: 'Book Free Demo',
-    seoTitle: 'School ERP with Mobile App - ₹15,000/year',
-    seoDesc: 'Complete school ERP with Android mobile app for parents, staff, and students. Includes push notifications and priority support.',
     badge: 'Popular'
   },
   {
@@ -60,8 +56,6 @@ const plans = [
     popular: false,
     slug: 'custom',
     ctaText: 'Contact Sales',
-    seoTitle: 'Custom School ERP Plan - Contact Sales',
-    seoDesc: 'Custom school management solution for large institutions with 300+ students, custom modules, and dedicated support.',
     badge: 'Enterprise'
   },
 ];
@@ -82,9 +76,7 @@ function PricingCard({ plan, index, onBookDemo }) {
           : 'bg-white border shadow-md hover:shadow-xl hover:-translate-y-1'
       }`}
       role="article"
-      aria-label={`${plan.name} - ${plan.seoTitle}`}
-      itemScope
-      itemType="https://schema.org/Product"
+      aria-label={`${plan.name} pricing plan - ConnectSkool School ERP`}
     >
       {/* Most Popular Badge */}
       {isPopular && (
@@ -102,19 +94,19 @@ function PricingCard({ plan, index, onBookDemo }) {
       </div>
 
       {/* Plan Name */}
-      <h3 className="text-xl font-bold mb-2 text-[#1E4E6D]" itemProp="name">{plan.name}</h3>
+      <h3 className="text-xl font-bold mb-2 text-[#1E4E6D]">{plan.name}</h3>
       
       {/* Description */}
-      <p className="text-sm text-gray-500 mb-6" itemProp="description">{plan.desc}</p>
+      <p className="text-sm text-gray-500 mb-6">{plan.desc}</p>
 
       {/* Price */}
       <div className="mb-4">
         {plan.price !== 'Custom' ? (
           <div className="flex items-baseline gap-1">
-            <h4 className="text-4xl font-extrabold text-[#0DA2E7]" itemProp="price">
+            <h4 className="text-4xl font-extrabold text-[#0DA2E7]">
               ₹{plan.price}
             </h4>
-            <span className="text-xs text-gray-400" itemProp="priceCurrency" content="INR">/year</span>
+            <span className="text-xs text-gray-400">/year</span>
           </div>
         ) : (
           <h4 className="text-3xl font-bold text-[#0DA2E7]">Contact Us</h4>
@@ -152,14 +144,14 @@ function PricingCard({ plan, index, onBookDemo }) {
         {plan.ctaText}
       </button>
 
-      {/* Hidden Schema Data */}
-      <meta itemProp="description" content={plan.seoDesc} />
-      <meta itemProp="category" content="School Management Software" />
-      {plan.price !== 'Custom' && (
-        <>
-          <meta itemProp="priceCurrency" content="INR" />
-          <meta itemProp="availability" content="https://schema.org/InStock" />
-        </>
+      {/* Custom Quote Link for Enterprise */}
+      {plan.price === 'Custom' && (
+        <p className="mt-3 text-center text-xs text-slate-400">
+          Need a custom quotation?{' '}
+          <a href="/demo" className="text-[#0DA2E7] hover:underline">
+            Book Free Demo
+          </a>
+        </p>
       )}
     </motion.div>
   );
@@ -175,63 +167,7 @@ export default function Pricing() {
 
   return (
     <>
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "School ERP Pricing Plans",
-            "description": "Affordable school ERP pricing plans for schools of all sizes.",
-            "itemListElement": plans.map((plan, index) => ({
-              "@type": "ListItem",
-              "position": index + 1,
-              "item": {
-                "@type": "Product",
-                "name": plan.seoTitle,
-                "description": plan.seoDesc,
-                "offers": {
-                  "@type": "Offer",
-                  "price": plan.price === 'Custom' ? "0" : plan.price.replace(',', ''),
-                  "priceCurrency": "INR",
-                  "availability": "https://schema.org/InStock",
-                  "url": `https://www.connectskool.com/demo?plan=${plan.slug}`
-                }
-              }
-            }))
-          })
-        }}
-      />
-
-      {/* FAQ Schema - Optional but helpful */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What are the school ERP pricing plans?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "ConnectSkool offers three pricing plans: Dashboard Plan at ₹10,000/year, Mobile App Plan at ₹15,000/year, and Custom Plan for large schools. All plans include free onboarding and data migration."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How much does ConnectSkool school ERP cost?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "ConnectSkool pricing starts from ₹10,000 per year for the Dashboard Plan and ₹15,000 per year for the Mobile App Plan. Custom pricing is available for larger institutions."
-                }
-              }
-            ]
-          })
-        }}
-      />
+      {/* ✅ REMOVED: Product schemas - handled by layout.js */}
 
       <section 
         className="py-20 md:py-30 bg-gradient-to-b from-slate-50 to-white"
