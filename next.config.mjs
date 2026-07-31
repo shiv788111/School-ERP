@@ -14,6 +14,9 @@ const nextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+    // ✅ Quality configuration for Next.js 16+
+    qualities: [75, 80, 85, 90, 95],
+    formats: ["image/avif", "image/webp"],
   },
 
   async headers() {
@@ -29,6 +32,17 @@ const nextConfig = {
       },
     ];
   },
+
+  // ❌ REMOVE redirects completely - handled by hosting provider
+  // async redirects() {
+  //   return [];
+  // },
+
+  // ✅ Remove powered by header for security
+  poweredByHeader: false,
+
+  // ✅ Compress for better performance
+  compress: true,
 };
 
 export default nextConfig;

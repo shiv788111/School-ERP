@@ -32,6 +32,8 @@ export const metadata = {
     'best school erp price',
     'ConnectSkool pricing',
     'school erp india',
+    'school erp cost',
+    'education erp pricing',
   ],
 
   // ─── CANONICAL URL ────────────────────────────────────────────────────
@@ -90,14 +92,6 @@ export const metadata = {
   authors: [{ name: 'ConnectSkool' }],
   creator: 'ConnectSkool',
   publisher: 'ConnectSkool',
-
-  // ─── VERIFICATION (Uncomment when you have codes) ────────────────────
-  // verification: {
-  //   google: 'YOUR_GOOGLE_SEARCH_CONSOLE_CODE',
-  //   other: {
-  //     'facebook-domain-verification': 'YOUR_FACEBOOK_CODE',
-  //   },
-  // },
 
   // ─── APP LINKS ────────────────────────────────────────────────────────
   appLinks: {
