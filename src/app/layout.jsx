@@ -112,8 +112,8 @@ export default function RootLayout({ children }) {
                   address: {
                     '@type': 'PostalAddress',
                     streetAddress: 'Gaur City Mall, Sector-4, Greater Noida, UP – 201318',
-                    addressLocality: 'Greater Noida',  // ✅ Added
-                    postalCode: '201318',              // ✅ Added
+                    addressLocality: 'Greater Noida',
+                    postalCode: '201318',
                     addressCountry: 'IN',
                   },
                 },
@@ -189,6 +189,8 @@ export default function RootLayout({ children }) {
                   },
                   offers: {
                     '@type': 'Offer',
+                    price: '0',                    // ✅ Added
+                    priceCurrency: 'INR',          // ✅ Added
                     description: 'Free demo available',
                     availability: 'https://schema.org/InStock',
                   },
